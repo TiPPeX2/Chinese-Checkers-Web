@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package webService;
+package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "gameSettings", urlPatterns = {"/gameSettings"}, initParams = {
     @WebInitParam(name = "", value = "")})
-public class gameSettings extends HttpServlet {
+public class GameSettingsManager extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

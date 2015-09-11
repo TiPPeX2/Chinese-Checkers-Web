@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="file:/C:/Users/shahar2/Documents/NetBeansProjects/ChineseCheckersWeb/../../../Downloads/XML%20and%20XSD%20v1.1/XML%20and%20XSD%20v1.1/chinese_checkers.xsd" uri="src/conf/xml-resources/jaxb/chinesecheckers/chinese_checkers.xsd"/>
+</catalog>
