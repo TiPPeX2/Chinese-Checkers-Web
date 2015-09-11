@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author shahar2
  */
 @WebServlet(name = "GameManager", urlPatterns = {"/GameManager"})
-public class GameManager extends HttpServlet {
+public class LoadGameServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

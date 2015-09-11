@@ -1,6 +1,6 @@
-package engine.Model;
+package gameLogic.Model;
 
-import engine.Model.Player.Type;
+import gameLogic.Model.Player.Type;
 import generated.Cell;
 import generated.ChineseCheckers;
 import generated.ColorType;
@@ -33,13 +33,13 @@ public abstract class EngineFactory {
         engine.setPossibleMovesForPlayer(engine.getCurrentPlayer());
     }
 
-    public static Point createGamePoint(Point p, engine.Model.Board board) {
+    public static Point createGamePoint(Point p, gameLogic.Model.Board board) {
 
         int counter = 1;
         int i = -1;
-        while (counter <= p.y && i < engine.Model.Board.COLS - 1) {
+        while (counter <= p.y && i < gameLogic.Model.Board.COLS - 1) {
             ++i;
-            engine.Model.Color color = board.getColorByPoint(new Point(p.x - 1, i));
+            gameLogic.Model.Color color = board.getColorByPoint(new Point(p.x - 1, i));
             if (color != Color.TRANSPARENT) {
                 counter++;
             }
@@ -85,14 +85,14 @@ public abstract class EngineFactory {
         return playersNames;
     }
 
-    private static engine.Model.Board createGameBoard(generated.Board board) throws Exception {
-        engine.Model.Board gameBoard = new engine.Model.Board();
+    private static gameLogic.Model.Board createGameBoard(generated.Board board) throws Exception {
+        gameLogic.Model.Board gameBoard = new gameLogic.Model.Board();
         gameBoard.makeEmpty();
         List<Cell> cells = board.getCell();
         for (Cell cell : cells) {
-            engine.Model.Color color = createColorFromSaveGameColor(cell.getColor());
+            gameLogic.Model.Color color = createColorFromSaveGameColor(cell.getColor());
             Point point = createGamePoint(new Point(cell.getRow(), cell.getCol()), gameBoard);
-            engine.Model.Color gameColor = gameBoard.getColorByPoint(point);
+            gameLogic.Model.Color gameColor = gameBoard.getColorByPoint(point);
             if (gameColor == Color.TRANSPARENT) {
                 throw new Exception(String.format("invalid point {%d,%d}", cell.getRow(), cell.getCol()));
             }
@@ -184,16 +184,16 @@ public abstract class EngineFactory {
 
     }
 
-    private static void eachColorHasTenMarbles(engine.Model.Board gameBoard) throws Exception {
-        HashMap<engine.Model.Color, AtomicInteger> colorCounterMap = createTheMap(gameBoard);
+    private static void eachColorHasTenMarbles(gameLogic.Model.Board gameBoard) throws Exception {
+        HashMap<gameLogic.Model.Color, AtomicInteger> colorCounterMap = createTheMap(gameBoard);
         validateMap(colorCounterMap);
     }
 
-    private static HashMap<engine.Model.Color, AtomicInteger> createTheMap(engine.Model.Board gameBoard) {
-        HashMap<engine.Model.Color, AtomicInteger> colorCounterMap = new HashMap<>();
+    private static HashMap<gameLogic.Model.Color, AtomicInteger> createTheMap(gameLogic.Model.Board gameBoard) {
+        HashMap<gameLogic.Model.Color, AtomicInteger> colorCounterMap = new HashMap<>();
 
-        int rows = engine.Model.Board.ROWS;
-        int cols = engine.Model.Board.COLS;
+        int rows = gameLogic.Model.Board.ROWS;
+        int cols = gameLogic.Model.Board.COLS;
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 updateMap(gameBoard, new Point(i, j), colorCounterMap);
@@ -202,8 +202,8 @@ public abstract class EngineFactory {
         return colorCounterMap;
     }
 
-    private static void updateMap(engine.Model.Board gameBoard, Point curPoint, HashMap<Color, AtomicInteger> colorCounterMap) {
-        engine.Model.Color curColor = gameBoard.getColorByPoint(curPoint);
+    private static void updateMap(gameLogic.Model.Board gameBoard, Point curPoint, HashMap<Color, AtomicInteger> colorCounterMap) {
+        gameLogic.Model.Color curColor = gameBoard.getColorByPoint(curPoint);
         if (isMarble(curColor)) {
             if (!colorCounterMap.containsKey(curColor)) {
                 colorCounterMap.put(curColor, new AtomicInteger(0));
@@ -214,7 +214,7 @@ public abstract class EngineFactory {
     }
 
     private static void validateMap(HashMap<Color, AtomicInteger> colorCounterMap) throws Exception {
-        for (engine.Model.Color key : colorCounterMap.keySet()) {
+        for (gameLogic.Model.Color key : colorCounterMap.keySet()) {
             if (colorCounterMap.get(key).intValue() != 10) {
                 throw new Exception("There is a color with less or more then 10 marbles!");
             }

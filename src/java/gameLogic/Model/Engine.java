@@ -1,8 +1,8 @@
-package engine.Model;
+package gameLogic.Model;
 
-import static engine.Model.Board.COLS;
-import static engine.Model.Board.ROWS;
-import engine.Model.Player.Type;
+import static gameLogic.Model.Board.COLS;
+import static gameLogic.Model.Board.ROWS;
+import gameLogic.Model.Player.Type;
 import java.awt.Point;
 import java.util.*;
 import javafx.util.Pair;

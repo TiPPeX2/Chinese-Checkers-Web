@@ -1,6 +1,6 @@
-package engine.Model;
+package gameLogic.Model;
 
-import engine.Model.Player.Type;
+import gameLogic.Model.Player.Type;
 import generated.Board;
 import generated.Cell;
 import generated.ChineseCheckers;
@@ -23,11 +23,11 @@ public abstract class ChineseCheckersFactory {
         return savedGame;
     }
 
-    public static Point createSavedGamePoint(Point p, engine.Model.Board board) {
+    public static Point createSavedGamePoint(Point p, gameLogic.Model.Board board) {
         int counter = 0;
         for (int i = 0; i <= p.y; i++) {
-            engine.Model.Color color = board.getColorByPoint(new Point(p.x, i));
-            if (color != engine.Model.Color.TRANSPARENT) {
+            gameLogic.Model.Color color = board.getColorByPoint(new Point(p.x, i));
+            if (color != gameLogic.Model.Color.TRANSPARENT) {
                 counter++;
             }
         }
@@ -49,10 +49,10 @@ public abstract class ChineseCheckersFactory {
         savedPlayer.setType(createSavedGameType(player.getType()));
         List<ColorType> colorList = savedPlayer.getColorDef();
         ArrayList<Point> targets = player.getTargets();
-        ArrayList<engine.Model.Color> colors = player.getColors();
+        ArrayList<gameLogic.Model.Color> colors = player.getColors();
 
         for (int i = 0; i < player.getColors().size(); i++) {
-            engine.Model.Color color = colors.get(i);
+            gameLogic.Model.Color color = colors.get(i);
             Point target = targets.get(i);
             colorList.add(createSavedGameColorType(color, target));
         }
@@ -60,7 +60,7 @@ public abstract class ChineseCheckersFactory {
         return savedPlayer;
     }
 
-    private static Color createSavedColorFromColor(engine.Model.Color color) {
+    private static Color createSavedColorFromColor(gameLogic.Model.Color color) {
         Color res = null;
         switch (color) {
             case BLACK:
@@ -85,7 +85,7 @@ public abstract class ChineseCheckersFactory {
         return res;
     }
 
-    private static ColorType createSavedGameColorType(engine.Model.Color color, Point target) {
+    private static ColorType createSavedGameColorType(gameLogic.Model.Color color, Point target) {
         ColorType savedColor = new ColorType();
         savedColor.setTarget(createSavedGameTarget(target));
         savedColor.setColor(createSavedColorFromColor(color));
@@ -109,7 +109,7 @@ public abstract class ChineseCheckersFactory {
         }
     }
 
-    private static Cell createSavedCell(int i, int j, engine.Model.Color curColor, engine.Model.Board board) {
+    private static Cell createSavedCell(int i, int j, gameLogic.Model.Color curColor, gameLogic.Model.Board board) {
         Cell savedCell = new Cell();
         Point savedPoint = createSavedGamePoint(new Point(i, j), board);
         savedCell.setRow(savedPoint.x);
@@ -120,11 +120,11 @@ public abstract class ChineseCheckersFactory {
 
     private static Board createSaveGameBoard(Engine gameEngine) {
         Board savedBoard = new Board();
-        engine.Model.Board gameBoard = gameEngine.getGameBoard();
+        gameLogic.Model.Board gameBoard = gameEngine.getGameBoard();
         List<Cell> savedCellsList = savedBoard.getCell();
-        for (int i = 0; i < engine.Model.Board.ROWS; i++) {
-            for (int j = 0; j < engine.Model.Board.COLS; j++) {
-                engine.Model.Color curColor = gameBoard.getColorByPoint(new Point(i, j));
+        for (int i = 0; i < gameLogic.Model.Board.ROWS; i++) {
+            for (int j = 0; j < gameLogic.Model.Board.COLS; j++) {
+                gameLogic.Model.Color curColor = gameBoard.getColorByPoint(new Point(i, j));
                 if (gameEngine.isMarble(curColor)) {
                     savedCellsList.add(createSavedCell(i, j, curColor, gameBoard));
                 }

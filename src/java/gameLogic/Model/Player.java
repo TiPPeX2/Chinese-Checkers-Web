@@ -1,4 +1,4 @@
-package engine.Model;
+package gameLogic.Model;
 
 import java.awt.Point;
 import java.util.ArrayList;

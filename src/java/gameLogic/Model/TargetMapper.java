@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package engine.Model;
+package gameLogic.Model;
 
 import java.awt.Point;
 import java.util.ArrayList;

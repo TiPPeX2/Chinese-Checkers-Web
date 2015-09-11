@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package engine.Model;
+package gameLogic.Model;
 
 import generated.ChineseCheckers;
 import java.io.BufferedReader;
