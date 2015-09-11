@@ -17,8 +17,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author shahar2
  */
-@WebServlet(name = "GameManager", urlPatterns = {"/GameManager"})
-public class GameManager extends HttpServlet {
+@WebServlet(name = "MainManager", urlPatterns = {"/MainManager"})
+public class MainManager extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,10 +37,10 @@ public class GameManager extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet GameManager</title>");            
+            out.println("<title>Servlet MainManager</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet GameManager at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet MainManager at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
