@@ -41,7 +41,7 @@ public class MainMenuServlet extends HttpServlet {
             //logic of join game
         }
         else
-            response.sendRedirect("/html/gameSettings.html");
+            response.sendRedirect("html/gameSettings.html");
 
     }
 

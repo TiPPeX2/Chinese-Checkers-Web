@@ -1,13 +1,13 @@
 $(function(){
 
-    $("#newGameBtn").click(function(){
+    $("#newGameBtn").submit(function(){
         $.ajax({
-            url: "main",
+            url: this.action,
             success: function(data) {
                 alert(data);
             },
             error: function(error) {
-                location.reload();
+                alert("error");
             }
         });
     });
