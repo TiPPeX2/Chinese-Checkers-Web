@@ -11,7 +11,7 @@
         <script src="../js/bootstrap.min.js"></script>
     </head>
     <body>
-        <form class="container" action="gameSettings" method="POST">
+        <form class="container gameSettingsWrapper" action="gameSettings" method="POST">
             <div class="row">
                 <div class="col-md-12">        
                     <h1>Game Settings</h1>
@@ -22,13 +22,12 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <input type="text" placeholder="Your Name:" id="playerName">
+                    <input type="text" placeholder="Enter Your Name:" id="playerName">
                 </div>
             </div>
-            <br/>
             <div class="row">
-                <div class="col-md-3">
-                    <label>How many players ?</label>
+                <div class="col-md-12">
+                    <label id="playersInfo">How Many Players</label>
                     <select id="playersNumber">
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -37,16 +36,18 @@
                         <option value="6">6</option>
                     </select>
                 </div>
-                <div class="col-md-6">
-                    <label>How Many Humans ?</label>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <label id="humansInfo">How Many Humans</label>
                     <select id="humansNumber"></select>
                 </div>
+            </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <input type="submit" id="createGameBtn" class="btn btn-lg btn-info" value="Create Game">
+                        <input type="submit" id="createGameBtn" class="btn btn-lg btn-primary" value="Create Game">
                     </div>
                 </div>
-            </div>
         </form>
     </body>
 </html>
