@@ -40,8 +40,8 @@ public class NewGameServlet extends HttpServlet {
          response.sendError(-101, "Game Currently being created, Try again soon!");   
         else{ 
             //No game in progress
-            response.sendRedirect("html/gameSettings.html");
             gameManager.setInGameSetting(true);
+            response.sendRedirect("html/gameSettings.html");
         }
 
     }
