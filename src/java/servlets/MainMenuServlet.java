@@ -12,12 +12,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import servletLogic.GameManager;
+import utils.ServletUtils;
 
 /**
  *
  * @author shahar2
  */
-@WebServlet(name = "MainMenuServlet", urlPatterns = {"/main_menu"})
+@WebServlet(name = "MainMenuServlet", urlPatterns = {"/main"})
 public class MainMenuServlet extends HttpServlet {
 
     /**
@@ -32,18 +34,15 @@ public class MainMenuServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet MainMenuServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet MainMenuServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        GameManager gameManager = ServletUtils.getGameManager(getServletContext());
+        if (gameManager.isStarted()) 
+            response.sendRedirect("index.html");
+        else if(gameManager.isInGameSetting()){
+            //logic of join game
         }
+        else
+            response.sendRedirect("/html/gameSettings.html");
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

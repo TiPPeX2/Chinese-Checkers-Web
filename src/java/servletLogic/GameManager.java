@@ -2,12 +2,28 @@ package servletLogic;
 
 
 public class GameManager {
-    private boolean isStarted;
-    private boolean isInGameSetting;
+    private boolean started;
+    private boolean inGameSetting;
 
     public GameManager() {
-        isInGameSetting = false;
-        isStarted = false;
+        inGameSetting = false;
+        started = false;
+    }
+
+    public boolean isStarted() {
+        return started;
+    }
+
+    public void setStarted(boolean isStarted) {
+        this.started = isStarted;
+    }
+
+    public boolean isInGameSetting() {
+        return inGameSetting;
+    }
+
+    public void setInGameSetting(boolean isInGameSetting) {
+        this.inGameSetting = isInGameSetting;
     }
 
 }
