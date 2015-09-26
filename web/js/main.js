@@ -1,22 +1,19 @@
-var gameState;
-
-$.ajax({
-    url: '/main',
-    success: function(data) {
-           gameState = data;
-    },
-    error: function(error) {
-       $("#error").empty(); 
-       $("#error").append
-                ("<p>Someting went wrong,Please refresh and try again<p>");
-    }
+$(function(){
+    $.ajax({
+        url: 'main',
+        success: function(data) {
+               initComponents(data);
+        },
+        error: function(error) {
+           $("#error").empty(); 
+           $("#error").append
+                    ("<p>Someting went wrong,Please refresh and try again<p>");
+        }
+    });
 });
 
-
-
-$(function(){
-    
-    var gameStarted = (gameState.started === true ||
+function initComponents(gameState){
+var gameStarted = (gameState.started === true ||
                       gameState.inLoby === true || 
                       gameState.inGameSetting === true);
     if(!gameStarted){
@@ -26,9 +23,7 @@ $(function(){
             $.ajax({
                 url: this.action,
                 success: function(data) {
-                    if(data.started === false && data.inLoby === false && data.inGameSetting === false ){
-
-                    }
+                    alert("asd");
                 },
                 error: function(error) {
                    $("#error").empty(); 
@@ -47,4 +42,4 @@ $(function(){
         //if in Loby redirect to loby
         $('#container').append(errorMsg);
     }
-});
+}

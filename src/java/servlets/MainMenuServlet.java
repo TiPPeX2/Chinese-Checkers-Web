@@ -20,7 +20,7 @@ import utils.ServletUtils;
  *
  * @author shahar2
  */
-@WebServlet(name = "MainMenuServlet", urlPatterns = {"main"})
+@WebServlet(name = "MainMenuServlet", urlPatterns = {"/main"})
 public class MainMenuServlet extends HttpServlet {
 
     /**
