@@ -7,25 +7,19 @@ and open the template in the editor.
     Created on : Sep 26, 2015, 11:25:07 AM
     Author     : Tamir
 */
-
-body {
-  height: 100%;
-  background: url('../Images/backround.png') rgb(255, 255, 255);
-  background-color: buttonface;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center center;
-  background-attachment: fixed;
+.gameOptions{
+    display: inline-block
 }
-
-.AllButtons {
-   margin-left: 300px;
-   margin-top: 30px;
+.btnBoard:focus{
+    outline: none;
 }
-
-.formclass{
-display: inline-block
+.btnBoard{
+    visibility: visible !important;
+    border-radius: 20px;
+    background: #FFFFFF;
 }
-
-
-
+.invisibleBtnBoard{
+    visibility: hidden;
+    width: 30px;
+    height: 30px;
+}

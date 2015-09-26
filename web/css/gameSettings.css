@@ -12,9 +12,10 @@ body{
     background-image: url("../resources/img/ChineseCheckers.jpg");
     background-size: 100%;
 }
-
+input:focus, select:focus{
+    outline: none;
+}
 .gameSettingsWrapper h1{ 
-
     font-size: 80px;
     font-weight: bold;
     color: whitesmoke;

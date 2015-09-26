@@ -16,6 +16,7 @@ public class GameManager {
 
     public GameManager() {
         inLoby = false;
+        inGameSetting = false;
         started = false;
     }
 

@@ -6,8 +6,8 @@ and open the template in the editor.
 -->
 <html>
     <head>    
-        <title>Game</title>
-       <meta charset="UTF-8">
+        <title>Chinese Checkers</title>
+        <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="../js/jquery-2.0.3.min.js"></script>
         <link rel="stylesheet" href="../css/bootstrap.min.css">
@@ -16,18 +16,23 @@ and open the template in the editor.
         <script src="../js/bootstrap.min.js"></script>
     </head>
     <body>
-        <div class="menubuttons">
-            <form action="Board.html" class="formclass">             
-                <button id="Save" class="btn btn-primary" >Save</button>
-            </form>
-            <form action="Board.html" class="formclass">             
-                <button id="SaveAs" class="btn btn-primary" >SaveAs..</button>
-            </form>
-            <form action="Board.html" class="formclass">             
-                <button id="QuitGame" class="btn btn-primary" >QuitGame</button>
-            </form>
-        </div>
-        
-        <div class="Mycontainer"></div>
+            <div>
+                <form action="save" class="gameOptions">             
+                    <button id="save" class="btn btn-primary" >Save</button>
+                </form>
+                <form action="saveAs" class="gameOptions">             
+                    <button id="saveAs" class="btn btn-primary" >Save As</button>
+                </form>
+                <form action="quit" class="gameOptions">             
+                    <button id="quitGame" class="btn btn-primary" >Quit</button>
+                </form>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="gameContainer"></div>
+                    </div>
+                </div>
+            </div>
     </body>
 </html>
