@@ -5,12 +5,29 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
+    <head>    
+        <title>Game</title>
+       <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="../js/jquery-2.0.3.min.js"></script>
+        <link rel="stylesheet" href="../css/bootstrap.min.css">
+        <link rel="stylesheet" href="../css/game.css">
+        <script src="../js/game.js"></script>
+        <script src="../js/bootstrap.min.js"></script>
     </head>
     <body>
-        <div>TODO write content</div>
+        <div class="menubuttons">
+            <form action="Board.html" class="formclass">             
+                <button id="Save" class="btn btn-primary" >Save</button>
+            </form>
+            <form action="Board.html" class="formclass">             
+                <button id="SaveAs" class="btn btn-primary" >SaveAs..</button>
+            </form>
+            <form action="Board.html" class="formclass">             
+                <button id="QuitGame" class="btn btn-primary" >QuitGame</button>
+            </form>
+        </div>
+        
+        <div class="Mycontainer"></div>
     </body>
 </html>

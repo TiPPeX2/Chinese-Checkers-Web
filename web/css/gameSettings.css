@@ -9,7 +9,7 @@ and open the template in the editor.
 */
 
 body{
-    background-image: url("http://www.creativecrash.com/system/photos/000/078/858/78858/big/ChineseCheckers.jpg?1264566069");
+    background-image: url("../resources/img/ChineseCheckers.jpg");
     background-size: 100%;
 }
 
