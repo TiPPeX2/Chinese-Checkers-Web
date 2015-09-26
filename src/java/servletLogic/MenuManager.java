@@ -1,7 +1,7 @@
 package servletLogic;
 
 
-public class GameManager {
+public class MenuManager {
     private boolean started;
     private boolean inLoby;
     private boolean inGameSetting;
@@ -14,9 +14,8 @@ public class GameManager {
         this.inLoby = inLoby;
     }
 
-    public GameManager() {
+    public MenuManager() {
         inLoby = false;
-        inGameSetting = false;
         started = false;
     }
 

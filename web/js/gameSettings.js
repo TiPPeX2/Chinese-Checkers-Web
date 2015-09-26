@@ -28,16 +28,20 @@ $(function(){
 
     playersNumberChanged();
     
-    $("#createGameBtn").submit(function(){
+    $("#createGameForm").submit(function(){
         $.ajax({
+            type: "POST",
             url: this.action,
             success: function(data) {
-                alert(data);
+                //should be auto redirected via servlet here!
             },
             error: function(error) {
-                alert("error");
+               $("#error").empty(); 
+               $("#error").append
+                        ("<p>Someting went wrong,Please refresh and try again<p>");
             }
         });
+        return false;
     });
 });
 

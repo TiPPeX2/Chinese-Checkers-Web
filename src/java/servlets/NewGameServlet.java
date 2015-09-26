@@ -11,7 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import servletLogic.GameManager;
+import servletLogic.MenuManager;
 import utils.ServletUtils;
 
 /**
@@ -33,7 +33,7 @@ public class NewGameServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        GameManager gameManager = ServletUtils.getGameManager(getServletContext());
+        MenuManager gameManager = ServletUtils.getMenuManager(getServletContext());
         if (gameManager.isStarted()) 
             response.sendError(-100, "Game Already Started, Try again later!");
         else if(gameManager.isInGameSetting())

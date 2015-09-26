@@ -23,7 +23,8 @@ var gameStarted = (gameState.started === true ||
             $.ajax({
                 url: this.action,
                 success: function(data) {
-                    alert("asd");
+                    //should be auto redirect via servlet here!
+                    alert("Should not alert this");
                 },
                 error: function(error) {
                    $("#error").empty(); 
