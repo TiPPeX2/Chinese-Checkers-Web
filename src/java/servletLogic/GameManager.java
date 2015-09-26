@@ -3,10 +3,19 @@ package servletLogic;
 
 public class GameManager {
     private boolean started;
+    private boolean inLoby;
     private boolean inGameSetting;
 
+    public boolean isInLoby() {
+        return inLoby;
+    }
+
+    public void setInLoby(boolean inLoby) {
+        this.inLoby = inLoby;
+    }
+
     public GameManager() {
-        inGameSetting = false;
+        inLoby = false;
         started = false;
     }
 
@@ -19,11 +28,11 @@ public class GameManager {
     }
 
     public boolean isInGameSetting() {
-        return inGameSetting;
+        return inLoby;
     }
 
     public void setInGameSetting(boolean isInGameSetting) {
-        this.inGameSetting = isInGameSetting;
+        this.inLoby = isInGameSetting;
     }
 
 }

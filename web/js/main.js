@@ -1,6 +1,6 @@
 $(function(){
-
     $("#newGameBtn").submit(function(){
+        alert("ASD");
         $.ajax({
             url: this.action,
             success: function(data) {
@@ -10,6 +10,7 @@ $(function(){
                 alert("error");
             }
         });
+        return false;
     });
 });
 

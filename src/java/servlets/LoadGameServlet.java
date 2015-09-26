@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author shahar2
  */
-@WebServlet(name = "GameManager", urlPatterns = {"/GameManager"})
+@WebServlet(name = "GameManager", urlPatterns = {"/loadGame"})
 public class LoadGameServlet extends HttpServlet {
 
     /**

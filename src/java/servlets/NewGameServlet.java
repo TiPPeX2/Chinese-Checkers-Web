@@ -5,9 +5,7 @@
  */
 package servlets;
 
-import com.google.gson.Gson;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,8 +18,8 @@ import utils.ServletUtils;
  *
  * @author shahar2
  */
-@WebServlet(name = "MainMenuServlet", urlPatterns = {"/main"})
-public class MainMenuServlet extends HttpServlet {
+@WebServlet(name = "MainMenuServlet", urlPatterns = {"/newGame"})
+public class NewGameServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,14 +32,16 @@ public class MainMenuServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("application/json");
+        response.setContentType("text/html;charset=UTF-8");
         GameManager gameManager = ServletUtils.getGameManager(getServletContext());
-        
-        try (PrintWriter out = response.getWriter()) {
-            Gson gson = new Gson();
-            String jsonResponse = gson.toJson(gameManager);
-            out.print(jsonResponse);
-            out.flush();
+        if (gameManager.isStarted()) 
+            response.sendError(-100, "Game Already Started, Try again later!");
+        else if(gameManager.isInGameSetting())
+         response.sendError(-101, "Game Currently being created, Try again soon!");   
+        else{ 
+            //No game in progress
+            response.sendRedirect("html/gameSettings.html");
+            gameManager.setInGameSetting(true);
         }
 
     }
