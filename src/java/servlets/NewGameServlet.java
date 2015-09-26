@@ -18,7 +18,7 @@ import utils.ServletUtils;
  *
  * @author shahar2
  */
-@WebServlet(name = "NewGameServlet", urlPatterns = {"/new"})
+@WebServlet(name = "NewGameServlet", urlPatterns = {"/newGame"})
 public class NewGameServlet extends HttpServlet {
 
     /**
