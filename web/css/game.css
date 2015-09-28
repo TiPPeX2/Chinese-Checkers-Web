@@ -7,6 +7,10 @@ and open the template in the editor.
     Created on : Sep 26, 2015, 11:25:07 AM
     Author     : Tamir
 */
+body{
+    background-image: url("../resources/img/ChineseCheckers.jpg");
+    background-size: 100%;
+}
 .gameOptions{
     display: inline-block
 }

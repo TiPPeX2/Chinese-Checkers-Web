@@ -42,7 +42,7 @@ $(function(){
         gameSettings.playerName = $(this).val();
         if($(this).val().length === 0){
             $('#createGameBtn').prop('disabled', true);
-            
+            $('#playerName').css('border-color', 'red');
         }
         else{
             $('#createGameBtn').prop('disabled', false);
