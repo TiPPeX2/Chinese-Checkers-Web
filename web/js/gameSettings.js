@@ -63,6 +63,10 @@ $(function(){
             url: this.action,
             success: function(data) {
                 //should be auto redirected via servlet here!
+                 if(gameSettings.howManyHumans === 1)
+                     window.location = "game.html";  
+                 else
+                     window.location = "loby.html";  
             },
             error: function(error) {
                $("#error").empty(); 

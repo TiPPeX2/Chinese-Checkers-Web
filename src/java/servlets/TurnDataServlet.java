@@ -39,11 +39,9 @@ public class TurnDataServlet extends HttpServlet {
         response.setContentType("application/json");
         GameManager gameManager = ServletUtils.getGameManager(getServletContext());
         
-            try (PrintWriter out = response.getWriter()) {
+        try (PrintWriter out = response.getWriter()) {
             Gson gson = new Gson();
-            Engine engine = gameManager.getGameEngine();
-            TurnData turnData = new TurnData(engine.getCurrentPlayer(), engine.getGameBoard());
-            String jsonResponse = gson.toJson(turnData);
+            String jsonResponse = gson.toJson(gameManager.getTurnData());
             out.print(jsonResponse);
             out.flush();
         }

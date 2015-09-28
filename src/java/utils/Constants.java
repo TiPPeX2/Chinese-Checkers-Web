@@ -13,7 +13,7 @@ public class Constants {
     public static final String PLAYERS_NUM_PARAMETER = "playersNumber";
     public static final String HUMANS_NUM_PARAMETER = "humansNumber";
     public static final String COLOR_NUM_PARAMETER = "colorsNumber";
-    public static final String MARBLE_MOVE = "movePoint";
+    public static final String MARBLE_MOVE = "test";
     
     public static final int INT_PARAMETER_ERROR = Integer.MIN_VALUE;
 }

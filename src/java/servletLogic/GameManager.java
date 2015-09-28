@@ -5,6 +5,8 @@
  */
 package servletLogic;
 
+import com.google.gson.Gson;
+import servletLogic.Move;
 import gameLogic.Model.Engine;
 
 /**
@@ -31,8 +33,14 @@ public class GameManager {
         this.gameEngine = gameEngine;
     }
 
-    public void doIteration(String move) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void doIteration(String moveStr) {
+        Gson gson = new Gson();
+        Move move = gson.fromJson(moveStr, Move.class);
+        gameEngine.doIteration(move.start, move.end);
+        //TODO AI movment??
     }
     
+    public TurnData getTurnData(){
+        return new TurnData(gameEngine.getCurrentPlayer(), gameEngine.getGameBoard());
+    }
 }

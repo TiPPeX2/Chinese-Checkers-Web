@@ -5,7 +5,9 @@
  */
 package servlets;
 
+import com.google.gson.Gson;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -38,6 +40,12 @@ public class MoveServlet extends HttpServlet {
         String move = request.getParameter(Constants.MARBLE_MOVE);
         GameManager gameManager = ServletUtils.getGameManager(getServletContext());
         gameManager.doIteration(move);
+        try (PrintWriter out = response.getWriter()) {
+            Gson gson = new Gson();
+            String jsonResponse = gson.toJson(gameManager.getTurnData());
+            out.print(jsonResponse);
+            out.flush();
+        }
         
     }
 
