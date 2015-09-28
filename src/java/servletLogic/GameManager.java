@@ -30,5 +30,9 @@ public class GameManager {
     public void setGameEngine(Engine gameEngine) {
         this.gameEngine = gameEngine;
     }
+
+    public void doIteration(String move) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

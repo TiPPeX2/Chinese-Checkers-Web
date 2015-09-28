@@ -7,6 +7,7 @@ $(function(){
         error: function(error) {
            $("#error").empty(); 
            $("#error").append
+           
                     ("<p>Someting went wrong,Please refresh and try again<p>");
         }
     });

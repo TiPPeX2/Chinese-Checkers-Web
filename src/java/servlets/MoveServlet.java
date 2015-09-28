@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import servletLogic.GameManager;
-import servletLogic.GameSettingsManager;
 import utils.Constants;
 import utils.ServletUtils;
 
@@ -36,9 +35,9 @@ public class MoveServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        request.getParameter(Constants.MARBLE_MOVE);
+        String move = request.getParameter(Constants.MARBLE_MOVE);
         GameManager gameManager = ServletUtils.getGameManager(getServletContext());
-        
+        gameManager.doIteration(move);
         
     }
 
