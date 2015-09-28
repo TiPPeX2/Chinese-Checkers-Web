@@ -40,7 +40,7 @@ $(function(){
     
      $("#playerName").keyup(function(){
         gameSettings.playerName = $(this).val();
-        if($(this).val().length == 0){
+        if($(this).val().length === 0){
             $('#createGameBtn').prop('disabled', true);
             
         }
@@ -59,6 +59,7 @@ $(function(){
     $("#createGameForm").submit(function(){
         $.ajax({
             type: "POST",
+            data: $(this).serialize(),
             url: this.action,
             success: function(data) {
                 //should be auto redirected via servlet here!

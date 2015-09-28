@@ -13,10 +13,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author shahar2
- */
 @WebServlet(name = "GameManager", urlPatterns = {"/loadGame"})
 public class LoadGameServlet extends HttpServlet {
 

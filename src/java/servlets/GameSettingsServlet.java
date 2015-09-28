@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import servletLogic.GameSettingsManager;
+import servletLogic.MenuManager;
+import utils.Constants;
 import utils.ServletUtils;
 
 /**
@@ -33,11 +35,32 @@ public class GameSettingsServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        GameSettingsManager gameSettingsManager = ServletUtils.getGameSettingsManager(getServletContext());
+        
+        String colorNumStr = request.getParameter(Constants.COLOR_NUM_PARAMETER);
+        String playersNumStr = request.getParameter(Constants.PLAYERS_NUM_PARAMETER);
+        String humansNumStr = request.getParameter(Constants.HUMANS_NUM_PARAMETER);
+        String playerName = request.getParameter(Constants.PLAYER_NAME_PARAMETER);
+        
+        int colorNum = Integer.parseInt(colorNumStr);
+        int playerNum = Integer.parseInt(playersNumStr);
+        int humansNum = Integer.parseInt(humansNumStr);
         
         //Create Game settings logic goes here.
-        //Remeber need to return error with what not good althuought should happen
-        response.sendRedirect("html/game.html");
+        GameSettingsManager gameSettingsManager = ServletUtils.getGameSettingsManager(getServletContext());
+        gameSettingsManager.getGameSettings().setColorNumber(colorNum);
+        gameSettingsManager.getGameSettings().setHumanPlayers(humansNum);
+        gameSettingsManager.getGameSettings().setTotalPlayers(playerNum);
+        gameSettingsManager.getGameSettings().getPlayerNames().add(playerName);
+        
+        MenuManager menuManager = ServletUtils.getMenuManager(getServletContext());
+        if(humansNum == 1){        
+
+            menuManager.setStarted(true);
+            response.sendRedirect("html/game.html");
+        }else{
+            menuManager.setInLoby(true);
+            response.sendRedirect("html/loby.html");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

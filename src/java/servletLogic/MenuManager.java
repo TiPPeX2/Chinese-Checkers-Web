@@ -6,17 +6,18 @@ public class MenuManager {
     private boolean inLoby;
     private boolean inGameSetting;
 
+    public MenuManager() {
+        inLoby = false;
+        started = false;
+        inGameSetting = false;
+    }
+
     public boolean isInLoby() {
         return inLoby;
     }
 
     public void setInLoby(boolean inLoby) {
         this.inLoby = inLoby;
-    }
-
-    public MenuManager() {
-        inLoby = false;
-        started = false;
     }
 
     public boolean isStarted() {

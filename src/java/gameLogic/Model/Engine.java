@@ -503,6 +503,11 @@ public class Engine {
         private int humanPlayers;
         private List<String> playerNames;
 
+        public Settings() {
+            playerNames = new ArrayList<>();
+        }
+
+        
         public int getTotalPlayers() {
             return totalPlayers;
         }
@@ -531,10 +536,9 @@ public class Engine {
             return playerNames;
         }
 
-        public void setPlayerNames(List playerNames) {
-            this.playerNames = playerNames;
+        void setPlayerNames(List<String> createNamesList) {
+            playerNames = createNamesList;
         }
-
     }
 
 }

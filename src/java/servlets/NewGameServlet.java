@@ -32,7 +32,7 @@ public class NewGameServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("application/json");
         MenuManager gameManager = ServletUtils.getMenuManager(getServletContext());
         if (gameManager.isStarted()) 
             response.sendError(-100, "Game Already Started, Try again later!");
@@ -40,7 +40,7 @@ public class NewGameServlet extends HttpServlet {
          response.sendError(-101, "Game Currently being created, Try again soon!");   
         else{ 
             //No game in progress
-            gameManager.setInGameSetting(true);
+            //gameManager.setInGameSetting(true);
             response.sendRedirect("html/gameSettings.html");
         }
 
