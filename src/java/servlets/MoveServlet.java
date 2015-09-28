@@ -17,10 +17,6 @@ import servletLogic.GameManager;
 import utils.Constants;
 import utils.ServletUtils;
 
-/**
- *
- * @author shahar2
- */
 @WebServlet(name = "MoveServlet", urlPatterns = {"/move"})
 public class MoveServlet extends HttpServlet {
 
