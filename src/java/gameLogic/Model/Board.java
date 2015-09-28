@@ -1,6 +1,7 @@
 package gameLogic.Model;
 
 import java.awt.Point;
+import java.io.File;
 import java.util.*;
 
 public class Board {
@@ -27,7 +28,8 @@ public class Board {
     private Cell[][] createFullBoard() {
         Cell[][] fullBoard = null;
         try {
-            ArrayList<String> boardLines = FileManager.readLinesFromFile("src/chinesecheckersfx/resources/boardTemplate.txt");
+            System.out.println(new File(".").getCanonicalPath());
+            ArrayList<String> boardLines = FileManager.readLinesFromFile("C:\\Users\\Tamir\\Documents\\NetBeansProjects\\Chinese-Checkers-Web\\web\\resources\\boardTemplate.txt");
             fullBoard = createBoardFromLines(boardLines);
         } catch (Exception e) {
             System.out.println(e.getMessage());

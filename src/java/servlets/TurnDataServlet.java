@@ -5,20 +5,24 @@
  */
 package servlets;
 
+import com.google.gson.Gson;
+import gameLogic.Model.Engine;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import servletLogic.GameSettingsManager;
+import servletLogic.GameManager;
+import servletLogic.TurnData;
 import utils.ServletUtils;
 
 /**
  *
  * @author shahar2
  */
-@WebServlet(name = "GameSettingsServlet", urlPatterns = {"/gameSettings"})
+@WebServlet(name = "TurnDataServlet", urlPatterns = {"/TurnData"})
 public class TurnDataServlet extends HttpServlet {
 
     /**
@@ -32,12 +36,17 @@ public class TurnDataServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        GameSettingsManager gameSettingsManager = ServletUtils.getGameSettingsManager(getServletContext());
+        response.setContentType("application/json");
+        GameManager gameManager = ServletUtils.getGameManager(getServletContext());
         
-        //Create Game settings logic goes here.
-        //Remeber need to return error with what not good althuought should happen
-        response.sendRedirect("html/game.html");
+            try (PrintWriter out = response.getWriter()) {
+            Gson gson = new Gson();
+            Engine engine = gameManager.getGameEngine();
+            TurnData turnData = new TurnData(engine.getCurrentPlayer(), engine.getGameBoard());
+            String jsonResponse = gson.toJson(turnData);
+            out.print(jsonResponse);
+            out.flush();
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

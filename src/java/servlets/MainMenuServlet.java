@@ -35,11 +35,11 @@ public class MainMenuServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/json");
-        MenuManager gameManager = ServletUtils.getMenuManager(getServletContext());
+        MenuManager menuManager = ServletUtils.getMenuManager(getServletContext());
         
         try (PrintWriter out = response.getWriter()) {
             Gson gson = new Gson();
-            String jsonResponse = gson.toJson(gameManager);
+            String jsonResponse = gson.toJson(menuManager);
             out.print(jsonResponse);
             out.flush();
         }

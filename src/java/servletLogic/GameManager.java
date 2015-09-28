@@ -13,6 +13,15 @@ import gameLogic.Model.Engine;
  */
 public class GameManager {
     Engine gameEngine;
+    
+    public GameManager(){
+        Engine.Settings gameSettings = new Engine.Settings();
+        gameSettings.setColorNumber(1);
+        gameSettings.setHumanPlayers(1);
+        gameSettings.setTotalPlayers(2);
+        gameSettings.getPlayerNames().add("Tamir");
+        gameEngine = new Engine(gameSettings);
+    }
 
     public Engine getGameEngine() {
         return gameEngine;
