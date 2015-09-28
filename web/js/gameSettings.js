@@ -66,7 +66,7 @@ $(function(){
                  if(gameSettings.howManyHumans === 1)
                      window.location = "game.html";  
                  else
-                     window.location = "loby.html";  
+                     window.location = "lobby.html";  
             },
             error: function(error) {
                $("#error").empty(); 

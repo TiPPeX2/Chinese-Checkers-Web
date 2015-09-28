@@ -63,7 +63,7 @@ public class GameSettingsServlet extends HttpServlet {
             response.sendRedirect("html/game.html");
         }else{
             menuManager.setInLoby(true);
-            response.sendRedirect("html/loby.html");
+            response.sendRedirect("html/lobby.html");
         }
     }
 

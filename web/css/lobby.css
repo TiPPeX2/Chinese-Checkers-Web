@@ -1,0 +1,29 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Sep 26, 2015, 11:25:01     AM
+    Author     : Tamir
+*/
+
+body{
+    background-image: url("../resources/img/ChineseCheckers.jpg");
+    background-size: 100%;
+}
+input:focus, select:focus{
+    outline: none;
+}
+.lobyWrapper h1{ 
+    font-size: 80px;
+    font-weight: 900;
+    color: whitesmoke;
+    text-align: center;
+}
+.gameDetails input{
+    border: none;
+    background: transparent;
+}
+
+

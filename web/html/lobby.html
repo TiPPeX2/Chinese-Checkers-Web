@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Chinese Lobby</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="../js/jquery-2.0.3.min.js"></script>
+        <link rel="stylesheet" href="../css/bootstrap.min.css">
+        <link rel="stylesheet" href="../css/lobby.css">
+        <script src="../js/bootstrap.min.js"></script>
+        <script src="../js/lobby.js"></script>
+    </head>
+    <body>
+        <div class="container lobyWrapper">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>Lobby</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <input type="text" id="playerName" value="Your Name">
+                </div>
+                <div class="col-md-6">
+                    <p>Players Listed: </p>
+                    <ul id="players"></ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <p>Game Details</p>
+                </div>
+            </div>
+            <div class="row gameDetails">
+                <div class="col-md-6">
+                    <label>Players: </label>
+                    <input type="number" disabled id="playersNumber">
+                </div>
+            </div>
+            <div class="row gameDetails">
+                <div class="col-md-6">
+                    <label>Humans: </label>
+                    <input type="number" disabled id="humansNumber">
+                </div>
+            </div>
+            <div class="row gameDetails">
+                <div class="col-md-6">
+                    <label>Colors: </label>
+                    <input type="number" disabled id="colorsNumber">
+                </div>
+            </div>
+            <form class="row" id="joinGame">
+                <button id="joinGameBtn" class="btn btn-lg btn-default">Join Game</button>
+            </form>
+        </div>
+    </body>
+</html>
