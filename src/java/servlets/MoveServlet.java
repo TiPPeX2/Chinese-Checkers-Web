@@ -11,14 +11,16 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import servletLogic.GameManager;
 import servletLogic.GameSettingsManager;
+import utils.Constants;
 import utils.ServletUtils;
 
 /**
  *
  * @author shahar2
  */
-@WebServlet(name = "GameSettingsServlet", urlPatterns = {"/gameSettings"})
+@WebServlet(name = "MoveServlet", urlPatterns = {"/move"})
 public class MoveServlet extends HttpServlet {
 
     /**
@@ -33,11 +35,11 @@ public class MoveServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        GameSettingsManager gameSettingsManager = ServletUtils.getGameSettingsManager(getServletContext());
         
-        //Create Game settings logic goes here.
-        //Remeber need to return error with what not good althuought should happen
-        response.sendRedirect("html/game.html");
+        request.getParameter(Constants.MARBLE_MOVE);
+        GameManager gameManager = ServletUtils.getGameManager(getServletContext());
+        
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -17,7 +17,7 @@ var gameStarted = (gameState.started === true ||
                       gameState.inLoby === true || 
                       gameState.inGameSetting === true);
     if(!gameStarted){
-        $('#container').load('html/menu.html');
+        $('#container').load('html/mainMenu.html');
     
         $("#newGameForm").submit(function(){
             $.ajax({
