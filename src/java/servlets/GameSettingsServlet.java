@@ -5,12 +5,14 @@
  */
 package servlets;
 
+import gameLogic.Model.Engine;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import servletLogic.GameManager;
 import servletLogic.GameSettingsManager;
 import servletLogic.MenuManager;
 import utils.Constants;
@@ -55,6 +57,8 @@ public class GameSettingsServlet extends HttpServlet {
         MenuManager menuManager = ServletUtils.getMenuManager(getServletContext());
         if(humansNum == 1){        
 
+            GameManager gameManager = ServletUtils.getGameManager(getServletContext());
+            gameManager.setGameEngine(new Engine(gameSettingsManager.getGameSettings()));
             menuManager.setStarted(true);
             response.sendRedirect("html/game.html");
         }else{

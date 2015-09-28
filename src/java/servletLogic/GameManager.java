@@ -13,5 +13,13 @@ import gameLogic.Model.Engine;
  */
 public class GameManager {
     Engine gameEngine;
+
+    public Engine getGameEngine() {
+        return gameEngine;
+    }
+
+    public void setGameEngine(Engine gameEngine) {
+        this.gameEngine = gameEngine;
+    }
     
 }
