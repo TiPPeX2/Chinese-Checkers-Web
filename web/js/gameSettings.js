@@ -1,6 +1,7 @@
 var gameSettings = {
     playerNumber: 2,
     playerName: "",
+    howManyColors: 1,
     howManyHumans: 1
 };
 
@@ -15,18 +16,45 @@ function playersNumberChanged(){
     }
 }
 
+function colorsNumberChanged(){
+    $('#colorsNumber').empty();
+    for(var i = 1; i <= 6 / gameSettings.playerNumber; i++){
+        $("#colorsNumber").append($('<option>',{
+            value: i,
+            text: i
+        }));
+    }
+}
+
 $(function(){
     
     $("#playersNumber").change(function(){
     gameSettings.playerNumber = $(this).val();
     playersNumberChanged();
+    colorsNumberChanged();
     });
 
     $("#humansNumber").change(function(){
         gameSettings.howManyHumans = $(this).val();
     });
+    
+     $("#playerName").keyup(function(){
+        gameSettings.playerName = $(this).val();
+        if($(this).val().length == 0){
+            $('#createGameBtn').prop('disabled', true);
+            
+        }
+        else{
+            $('#createGameBtn').prop('disabled', false);
+        }
+    });
+    
+     $("#colorsNumber").change(function(){
+        gameSettings.howManyColors = $(this).val();
+    });
 
     playersNumberChanged();
+    colorsNumberChanged();
     
     $("#createGameForm").submit(function(){
         $.ajax({

@@ -1,7 +1,20 @@
-<form id="newGameForm" method="POST" action="newGame">
-            <input id="newGameBtn" type="submit" value="New Game">
+<div class="row header">
+    <div class="col-md-12">
+        <p>Chinese Checkers</p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4 col-md-offset-4">
+        <form id="newGameForm" method="POST" action="newGame">
+            <input id="newGameBtn" type="submit" class="btn btn-lg btn-primary" value="New Game">
         </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4 col-md-offset-4">
         <form id="loadGameForm">
-            <input type="file" id="loadFile" > <!-- accept=".xml"-->
-            <input type="submit" value="Load Game" >
-</form>
+            <input type="file" class="btn btn-lg btn-default" id="loadFile"> 
+            <input type="submit" class="btn btn-lg btn-success" id="loadGame" value="Load Game">
+        </form>
+    </div>
+</div>

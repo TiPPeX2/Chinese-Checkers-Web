@@ -18,8 +18,8 @@ import utils.ServletUtils;
  *
  * @author shahar2
  */
-@WebServlet(name = "CreateGameSettingsServlet", urlPatterns = {"/gameSettings"})
-public class CreateGameSettingsServlet extends HttpServlet {
+@WebServlet(name = "GameSettingsServlet", urlPatterns = {"/gameSettings"})
+public class GameSettingsServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
