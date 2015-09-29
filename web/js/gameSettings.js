@@ -46,6 +46,7 @@ $(function(){
         }
         else{
             $('#createGameBtn').prop('disabled', false);
+            $('#playerName').css('border-color', '#AFA69D');
         }
     });
     
