@@ -50,7 +50,6 @@ function joinGame(){
                     ("<p>Someting went wrong,Please refresh and try again<p>");
         }
     });
-    //ajax
 }
 
 function disableSubmit(){
@@ -64,7 +63,8 @@ function disableSubmit(){
             isUnq = false;
     }
     else{
-        $('#createGameBtn').prop('disabled', false);
+        $('#joinGameBtn').prop('disabled', false);
+        $('#joinGameBtn').css('border-color','none');
     }
     if(isUnq === false)
         $('#unqErr').val("Your name must be UNIQUE.");
