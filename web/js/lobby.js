@@ -39,9 +39,9 @@ function getNames(){
 }
 
 function showSettings(gameSettings){
-    $('#humansNumber').val(gameSettings.howManyHumans);
-    $('#colorsNumber').val(gameSettings.howManyColors);
-    $('#playersNumber').val(gameSettings.playerNumber);
+    $('#humansNumber').val(gameSettings.humanPlayers);
+    $('#colorsNumber').val(gameSettings.colorNumber);
+    $('#playersNumber').val(gameSettings.totalPlayers);
 }
 
 function showNames(players){
@@ -63,9 +63,8 @@ function joinGame(){
             $('#joinGame').hide();
             $('#playerName').hide();
             $('#waitingText').empty();
-            $('#waitingText').append('<h1>Waiting for more player to start...<h1>');
-            players = data;
-            showNames();
+            $('#waitingText').append('<h1>Waiting for more players to start...<h1>');
+            showNames(data);
             //  hide join form, start move to game interval
         },
         error: function(error) {
