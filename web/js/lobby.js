@@ -94,9 +94,11 @@ function disableSubmit(){
     
     if(!isUnq)
         $('#unqErr').text("Your name must be UNIQUE.");
-    
-    if(isNothing)
+
+    if(isNothing){
         $('#playerName').css('border-color', 'red');
+        $('#unqErr').empty();
+    }
     
     if(isNothing || !isUnq)
         $('#joinGameBtn').prop('disabled', true);
