@@ -1,10 +1,13 @@
+var namesInterval;
+var moveInterval;
+
 var humanPlayers;
 var players;
 var names;
 
 $(document).ready(function () {
 
-    //interval to get names
+    namesInterval = setInterval(getNames, 2000);
     $("#waitingText").hide();
     getSettings();
     $('#joinGame').submit(joinGame);
@@ -77,7 +80,7 @@ function joinGame(){
             $('#playerName').hide();
             updateWaitMsg();
             $('#waitingText').show();
-            //  hide join form, start move to game interval
+            moveInterval = setInterval(movePlayer, 2000);
         },
         error: function(error) {
            $("#error").empty(); 
@@ -119,7 +122,22 @@ function checkIfUnique(name){
 }
 
 function updateWaitMsg(){
-    
- $('#waitingText').text('Waiting for ' + (humanPlayers - players) + ' more players to start...');
+    var remaining = (humanPlayers - players);
+    var msg = "";
+    if(remaining === 0)
+        msg = "Redirecting to game shoortly..";
+    else 
+        msg = 'Waiting for ' + remaining + ' more players to start...';
+ $('#waitingText').text(msg);
                
+}
+
+function movePlayer(){
+   
+   var remaining = (humanPlayers - players);
+   if(remaining === 0){
+       clearInterval(namesInterval);
+       clearInterval(moveInterval);
+       window.location = "game.html"; 
+   }
 }
