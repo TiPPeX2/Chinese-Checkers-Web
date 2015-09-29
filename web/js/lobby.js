@@ -1,6 +1,9 @@
+var humanPlayers;
+var players;
 $(document).ready(function () {
 
     //interval to get names
+    $("#waitingText").hide();
     getSettings();
     $('#joinGame').submit(joinGame);
     $("#playerName").keyup(disableSubmit);
@@ -39,15 +42,19 @@ function getNames(){
 }
 
 function showSettings(gameSettings){
+    humanPlayers = gameSettings.humanPlayers;
     $('#humansNumber').val(gameSettings.humanPlayers);
     $('#colorsNumber').val(gameSettings.colorNumber);
     $('#playersNumber').val(gameSettings.totalPlayers);
 }
 
-function showNames(players){
+function showNames(playerNames){
+    players = playerNames.length;
+    if(humanPlayers !== 'undefined')
+        updateWaitMsg();
     $('#players').empty();
-    for (var i = 0;i < players.length;i++){
-        $('#players').append("<li>" + players[i] + "</li>")
+    for (var i = 0;i < players;i++){
+        $('#players').append("<li>" + playerNames[i] + "</li>")
     }
 }
 
@@ -60,11 +67,11 @@ function joinGame(){
         type: "POST",
         data:{playerName: name},
         success: function(data) {
+            showNames(data);
             $('#joinGame').hide();
             $('#playerName').hide();
-            $('#waitingText').empty();
-            $('#waitingText').append('<h1>Waiting for more players to start...<h1>');
-            showNames(data);
+            updateWaitMsg();
+            $('#waitingText').show();
             //  hide join form, start move to game interval
         },
         error: function(error) {
@@ -107,4 +114,10 @@ function checkIfUnique(name){
     }
     
     return true;
+}
+
+function updateWaitMsg(){
+    
+ $('#waitingText').text('Waiting for ' + (humanPlayers - players) + ' more players to start...');
+               
 }
