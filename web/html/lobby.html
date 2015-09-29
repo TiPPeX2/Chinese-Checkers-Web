@@ -22,18 +22,12 @@ and open the template in the editor.
                     <h1>Lobby</h1>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <input type="text" id="playerName" placeholder="Your Name">
-                </div>
-                <div class="col-md-6">
-                    <p>Players Listed: </p>
-                    <ul id="players"></ul>
-                </div>
-            </div>
-            <div class="row">
+            <div class="row header">
                 <div class="col-md-6">
                     <p>Game Details</p>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" id="playerName" placeholder="Your Name">
                 </div>
             </div>
             <div class="row gameDetails">
@@ -41,6 +35,7 @@ and open the template in the editor.
                     <label>Players: </label>
                     <input type="number" disabled id="playersNumber">
                 </div>
+                <div class="col-md-6" id="waitingText"></div>
             </div>
             <div class="row gameDetails">
                 <div class="col-md-6">
@@ -54,9 +49,15 @@ and open the template in the editor.
                     <input type="number" disabled id="colorsNumber">
                 </div>
             </div>
-            <form class="row" id="joinGame">
-                <input type="submit" disabled id="joinGameBtn" class="btn btn-lg btn-default" value="Join Game">
-            </form>
+            <div class="row players">
+                <div class="col-md-6">
+                    <p>Players Listed: </p>
+                    <ul id="players"></ul>
+                </div>
+                    <form class="col-md-6" id="joinGame">
+                        <input type="submit" disabled id="joinGameBtn" class="btn btn-lg btn-default" value="Join Game">
+                    </form>
+            </div>
         </div>
     </body>
 </html>

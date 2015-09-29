@@ -15,15 +15,46 @@ body{
 input:focus, select:focus{
     outline: none;
 }
-.lobyWrapper h1{ 
-    font-size: 80px;
+.lobyWrapper h1{
+        font-size: 80px;
+        font-weight: 900;
+        color: whitesmoke;
+        text-align: center; 
+}
+.header{
+    margin-top: 50px;
+}
+.header p, .players p{
+    font-size: 30px;
     font-weight: 900;
     color: whitesmoke;
-    text-align: center;
+}
+.header input{
+    border-radius: 10px;
+    width: 250px;
+    height: 30px;
+    margin-top: 10px;
+}
+#joinGame input{
+    width: 250px;
+}
+.players{
+    margin-top: 30px;
+}
+#players{
+    list-style-type: none;
+    font-size: 20px;
+    font-weight: 700;
+    color: whitesmoke;
 }
 .gameDetails input{
     border: none;
     background: transparent;
+}
+label{
+    font-size: 20px;
+    font-weight: 600;
+    color: whitesmoke;
 }
 
 
