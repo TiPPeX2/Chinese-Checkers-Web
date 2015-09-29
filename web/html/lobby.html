@@ -23,40 +23,47 @@ and open the template in the editor.
                 </div>
             </div>
             <div class="row header">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <p>Game Details</p>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
+                    <p>Players Listed:</p>
+                </div>
+                <div class="col-md-4">
                     <input type="text" id="playerName" placeholder="Your Name">
                 </div>
             </div>
             <div class="row gameDetails">
-                <div class="col-md-6">
-                    <label>Players: </label>
-                    <input type="number" disabled id="playersNumber">
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Players: </label>
+                            <input type="number" disabled id="playersNumber">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Humans: </label>
+                            <input type="number" disabled id="humansNumber">
+                        </div>
+                    </div>
+                    <div class="row">
+                            <div class="col-md-12">
+                            <label>Colors: </label>
+                            <input type="number" disabled id="colorsNumber">
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-6" id="waitingText"></div>
-            </div>
-            <div class="row gameDetails">
-                <div class="col-md-6">
-                    <label>Humans: </label>
-                    <input type="number" disabled id="humansNumber">
+                <div class="col-md-4 players">
+                    <div class="col-md-12">
+                        <ul id="players"></ul>
+                    </div>
                 </div>
-            </div>
-            <div class="row gameDetails">
-                <div class="col-md-6">
-                    <label>Colors: </label>
-                    <input type="number" disabled id="colorsNumber">
-                </div>
-            </div>
-            <div class="row players">
-                <div class="col-md-6">
-                    <p>Players Listed: </p>
-                    <ul id="players"></ul>
-                </div>
-                    <form class="col-md-6" id="joinGame">
+                <div class="col-md-4" id="waitingText">
+                    <form class="col-md-12" id="joinGame">
                         <input type="submit" disabled id="joinGameBtn" class="btn btn-lg btn-default" value="Join Game">
                     </form>
+                </div>
             </div>
         </div>
     </body>

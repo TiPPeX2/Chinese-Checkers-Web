@@ -37,6 +37,7 @@ input:focus, select:focus{
 }
 #joinGame input{
     width: 250px;
+    margin-left: -13px;
 }
 .players{
     margin-top: 30px;
@@ -46,6 +47,8 @@ input:focus, select:focus{
     font-size: 20px;
     font-weight: 700;
     color: whitesmoke;
+    margin-top: -30px;
+    margin-left: 40px;
 }
 .gameDetails input{
     border: none;
@@ -55,6 +58,15 @@ label{
     font-size: 20px;
     font-weight: 600;
     color: whitesmoke;
+}
+#waitingText h1{
+    font-size: 40px !important;
+    margin-top: -5px !important;
+}
+#playersNumber, #colorsNumber, #humansNumber{
+    color: whitesmoke;
+    font-size: 18px;
+    font-weight: 700;
 }
 
 
