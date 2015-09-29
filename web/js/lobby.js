@@ -1,5 +1,7 @@
 var humanPlayers;
 var players;
+var names;
+
 $(document).ready(function () {
 
     //interval to get names
@@ -16,6 +18,7 @@ function getSettings(){
         success: function(data) {
             showSettings(data);
             showNames(data.playerNames);
+            names = data.playerNames;
         },
         error: function(error) {
            $("#error").empty(); 
@@ -32,6 +35,7 @@ function getNames(){
         type: "GET",
         success: function(data) {
             showNames(data);
+            names = data;
         },
         error: function(error) {
            $("#error").empty(); 
@@ -60,13 +64,14 @@ function showNames(playerNames){
 
 function joinGame(){
     var name = $('#playerName').val();
-    $('#joinGamebtn').prop('disabled', true);
+    $('#joinGameBtn').prop('disabled', true);
     
         $.ajax({
         url: '../nameList',
         type: "POST",
         data:{playerName: name},
         success: function(data) {
+            names = data;
             showNames(data);
             $('#joinGame').hide();
             $('#playerName').hide();
@@ -84,32 +89,27 @@ function joinGame(){
 }
 
 function disableSubmit(){
-    var isUnq = true;
-    if($(this).val().length === 0){
-        if(checkIfUnique()){
-            $('#joinGamebtn').prop('disabled', true);
-            $('#playerName').css('border-color', 'red');
-        }
-        else
-            isUnq = false;
-    }
+    var isNothing = $(this).val().length === 0;
+    var isUnq = checkIfUnique($(this).val());
+    
+    if(!isUnq)
+        $('#unqErr').text("Your name must be UNIQUE.");
+    
+    if(isNothing)
+        $('#playerName').css('border-color', 'red');
+    
+    if(isNothing || !isUnq)
+        $('#joinGameBtn').prop('disabled', true);
     else{
         $('#joinGameBtn').prop('disabled', false);
-        $('#joinGameBtn').css('border-color','none');
-    }
-    if(isUnq === false)
-        $('#unqErr').val("Your name must be UNIQUE.");
-    else
+        $('#playerName').css('border-color','#AFA69D');
         $('#unqErr').empty();
-        
+    }
 }
 
 function checkIfUnique(name){
-    if(players === false)
-        return false;
-    
-   for (var i = 0;i < players.length;i++){
-        if(name === players[i])
+   for (var i = 0;i < players;i++){
+        if(name === names[i])
             return false;
     }
     
