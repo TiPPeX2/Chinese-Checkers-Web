@@ -5,8 +5,10 @@
  */
 package servlets;
 
+import com.google.gson.Gson;
 import gameLogic.Model.Engine;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,34 +38,13 @@ public class GameSettingsServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        
-        String colorNumStr = request.getParameter(Constants.COLOR_NUM_PARAMETER);
-        String playersNumStr = request.getParameter(Constants.PLAYERS_NUM_PARAMETER);
-        String humansNumStr = request.getParameter(Constants.HUMANS_NUM_PARAMETER);
-        String playerName = request.getParameter(Constants.PLAYER_NAME_PARAMETER);
-        
-        int colorNum = Integer.parseInt(colorNumStr);
-        int playerNum = Integer.parseInt(playersNumStr);
-        int humansNum = Integer.parseInt(humansNumStr);
-        
-        //Create Game settings logic goes here.
+        response.setContentType("application/json");
         GameSettingsManager gameSettingsManager = ServletUtils.getGameSettingsManager(getServletContext());
-        gameSettingsManager.getGameSettings().setColorNumber(colorNum);
-        gameSettingsManager.getGameSettings().setHumanPlayers(humansNum);
-        gameSettingsManager.getGameSettings().setTotalPlayers(playerNum);
-        gameSettingsManager.getGameSettings().getPlayerNames().add(playerName);
-        
-        MenuManager menuManager = ServletUtils.getMenuManager(getServletContext());
-        if(humansNum == 1){        
-
-            GameManager gameManager = ServletUtils.getGameManager(getServletContext());
-            gameManager.setGameEngine(new Engine(gameSettingsManager.getGameSettings()));
-            menuManager.setStarted(true);
-            response.sendRedirect("html/game.html");
-        }else{
-            menuManager.setInLoby(true);
-            response.sendRedirect("html/lobby.html");
+        try (PrintWriter out = response.getWriter()) {
+            Gson gson = new Gson();
+            String jsonResponse = gson.toJson(gameSettingsManager.getGameSettings());
+            out.print(jsonResponse);
+            out.flush();
         }
     }
 
@@ -93,6 +74,35 @@ public class GameSettingsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+                
+        String colorNumStr = request.getParameter(Constants.COLOR_NUM_PARAMETER);
+        String playersNumStr = request.getParameter(Constants.PLAYERS_NUM_PARAMETER);
+        String humansNumStr = request.getParameter(Constants.HUMANS_NUM_PARAMETER);
+        String playerName = request.getParameter(Constants.PLAYER_NAME_PARAMETER);
+        
+        int colorNum = Integer.parseInt(colorNumStr);
+        int playerNum = Integer.parseInt(playersNumStr);
+        int humansNum = Integer.parseInt(humansNumStr);
+        
+        //Create Game settings logic goes here.
+        GameSettingsManager gameSettingsManager = ServletUtils.getGameSettingsManager(getServletContext());
+        gameSettingsManager.getGameSettings().setColorNumber(colorNum);
+        gameSettingsManager.getGameSettings().setHumanPlayers(humansNum);
+        gameSettingsManager.getGameSettings().setTotalPlayers(playerNum);
+        gameSettingsManager.getGameSettings().getPlayerNames().add(playerName);
+        
+        MenuManager menuManager = ServletUtils.getMenuManager(getServletContext());
+        if(humansNum == 1){        
+
+            GameManager gameManager = ServletUtils.getGameManager(getServletContext());
+            gameManager.setGameEngine(new Engine(gameSettingsManager.getGameSettings()));
+            menuManager.setStarted(true);
+            response.sendRedirect("html/game.html");
+        }else{
+            menuManager.setInLoby(true);
+            response.sendRedirect("html/lobby.html");
+        }
         processRequest(request, response);
     }
 

@@ -1,12 +1,26 @@
-var players = false;
-
 $(document).ready(function () {
 
     //interval to get names
-    getNames();
+    getSettings();
     $('#joinGame').submit(joinGame);
     $("#playerName").keyup(disableSubmit);
 });
+
+function getSettings(){
+      $.ajax({
+        url: '../gameSettings',
+        type: "GET",
+        success: function(data) {
+            showSettings(data);
+            showNames(data.playerNames);
+        },
+        error: function(error) {
+           $("#error").empty(); 
+           $("#error").append
+                    ("<p>Someting went wrong,Please refresh and try again<p>");
+        }
+    });
+}
 
 function getNames(){
     
@@ -14,8 +28,7 @@ function getNames(){
         url: '../nameList',
         type: "GET",
         success: function(data) {
-            players = data;
-            showNames();
+            showNames(data);
         },
         error: function(error) {
            $("#error").empty(); 
@@ -25,7 +38,13 @@ function getNames(){
     });
 }
 
-function showNames(){
+function showSettings(gameSettings){
+    $('#humansNumber').val(gameSettings.howManyHumans);
+    $('#colorsNumber').val(gameSettings.howManyColors);
+    $('#playersNumber').val(gameSettings.playerNumber);
+}
+
+function showNames(players){
     $('#players').empty();
     for (var i = 0;i < players.length;i++){
         $('#players').append("<li>" + players[i] + "</li>")
@@ -33,16 +52,21 @@ function showNames(){
 }
 
 function joinGame(){
-    name = $('#playerName').val();
+    var name = $('#playerName').val();
     $('#joinGamebtn').prop('disabled', true);
     
         $.ajax({
         url: '../nameList',
         type: "POST",
-        data:{name: name},
+        data:{playerName: name},
         success: function(data) {
-            // showNames agian, hide join form, start move to game interval
-            
+            $('#joinGame').hide();
+            $('#playerName').hide();
+            $('#waitingText').empty();
+            $('#waitingText').append('<h1>Waiting for more player to start...<h1>');
+            players = data;
+            showNames();
+            //  hide join form, start move to game interval
         },
         error: function(error) {
            $("#error").empty(); 
@@ -50,6 +74,7 @@ function joinGame(){
                     ("<p>Someting went wrong,Please refresh and try again<p>");
         }
     });
+    return false;
 }
 
 function disableSubmit(){
