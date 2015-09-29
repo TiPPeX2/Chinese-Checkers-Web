@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 import servletLogic.GameManager;
 import servletLogic.GameSettingsManager;
 import servletLogic.MenuManager;
-import utils.Constants;
 import utils.ServletUtils;
 
 /**
@@ -83,7 +82,16 @@ public class NameListServlet extends HttpServlet {
         
         String name = request.getParameter("playerName");
         GameSettingsManager gameSettingsManager = ServletUtils.getGameSettingsManager(getServletContext());
-        gameSettingsManager.getGameSettings().getPlayerNames().add(name);
+        Engine.Settings gameSettings = gameSettingsManager.getGameSettings();
+        gameSettings.getPlayerNames().add(name);
+        
+        if(gameSettings.getPlayerNames().size() == gameSettings.getHumanPlayers()){
+            MenuManager menuManager = ServletUtils.getMenuManager(getServletContext());
+            menuManager.setStarted(true);
+            
+            GameManager gameManager = ServletUtils.getGameManager(getServletContext());
+            gameManager.setGameEngine(new Engine(gameSettings));
+        }
         processRequest(request, response);
     }
 

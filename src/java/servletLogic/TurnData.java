@@ -6,7 +6,6 @@
 package servletLogic;
 
 import gameLogic.Model.Board;
-import gameLogic.Model.Engine;
 import gameLogic.Model.Player;
 
 /**
@@ -16,9 +15,11 @@ import gameLogic.Model.Player;
 public class TurnData {
     Player currentPlayer;
     Board gameBoard;
+    boolean isGameOver;
 
-    public TurnData(Player currentPlayer, Board gameBoard){
+    public TurnData(Player currentPlayer, Board gameBoard, boolean isGameOver){
         this.currentPlayer = currentPlayer;
         this.gameBoard = gameBoard;
+        this.isGameOver = isGameOver;
     }
 }

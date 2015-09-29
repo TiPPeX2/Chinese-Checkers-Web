@@ -33,7 +33,7 @@ public class MenuManager {
     }
 
     public void setInGameSetting(boolean isInGameSetting) {
-        this.inLoby = isInGameSetting;
+        this.inGameSetting = isInGameSetting;
     }
 
 }

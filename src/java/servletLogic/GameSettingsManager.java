@@ -9,7 +9,6 @@ public class GameSettingsManager {
     
     public GameSettingsManager() {
         gameSettings = new Engine.Settings();
-        
     }
 
     public Engine.Settings getGameSettings() {

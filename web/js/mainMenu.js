@@ -24,8 +24,7 @@ var gameStarted = (gameState.started === true ||
             $.ajax({
                 url: this.action,
                 success: function(data) {
-                    //should be auto redirect via servlet here!
-                    alert("Should not alert this");
+                    window.location = "html/lobby.html";
                 },
                 error: function(error) {
                    $("#error").empty(); 
@@ -39,6 +38,8 @@ var gameStarted = (gameState.started === true ||
         var errorMsg  = "";
         if(gameState.started)
             errorMsg = "<p>Game already started, Please try again later!<p>";
+        else if(gameState.inLoby)
+            window.location = "html/lobby.html";
         else if(gameState.inGameSetting)
             errorMsg = "<p>There is a game that is behing created, refresh soon and try to join!<p>";
         //if in Loby redirect to loby

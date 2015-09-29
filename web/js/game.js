@@ -44,6 +44,8 @@ $(document).ready(function () {
             index += 2;
         }
     }
+    
+    $('#quitForm').submit(quit);
 });
 
 function initBoard(data){
@@ -128,7 +130,10 @@ function marbleMove(){
         dataType: 'json',
         success: function(data) {
             GameData = data;
-            initBoard(data);
+            if(!data.isGameOver)
+                initBoard(data);
+            else
+                doGaameOver(data.currentPlayer.name);
         },
         error: function(error) {
            $("#error").empty(); 
@@ -157,4 +162,32 @@ function enableMarble(marbId, clickFunction){
      $(marbId).css('border-color', '#5C5C5C');
      $(marbId).unbind();
      $(marbId).click(clickFunction);
+}
+
+function doGameOver(winnerName){
+    $('#messages').text("The winner is: " + winnerName + '<br> Game will reset shortly.');
+    setTimeout(function(){
+        window.location = "../index.html";
+    },5000);
+    
+}
+
+function quit(){
+     $.ajax({
+        url: '../reset',
+        type:"POST",
+        success: function(data) {
+            alert('reseted');
+        },
+        error: function(error) {
+           $("#error").empty(); 
+           $("#error").append
+                    ("<p>Someting went wrong,Please refresh and try again<p>");
+        }
+    });
+    return false;
+    
+    //TODO implement quit here
+    
+    //TODO Move this jax to reset function and call is somewhereee
 }

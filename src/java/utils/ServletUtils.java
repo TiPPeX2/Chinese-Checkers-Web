@@ -35,4 +35,9 @@ public class ServletUtils {
 	}
 	return (GameManager) servletContext.getAttribute(GAME_MANAGER_ATTRIBUTE_NAME);
     }
+    
+    public static void reset(ServletContext servletContext) {
+        servletContext.setAttribute(GAME_MANAGER_ATTRIBUTE_NAME, new GameManager());
+        servletContext.setAttribute(MENU_MANAGER_ATTRIBUTE_NAME, new MenuManager());   
+    }
 }

@@ -11,15 +11,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import servletLogic.MenuManager;
 import utils.ServletUtils;
 
-/**
- *
- * @author shahar2
- */
-@WebServlet(name = "NewGameServlet", urlPatterns = {"/newGame"})
-public class NewGameServlet extends HttpServlet {
+@WebServlet(name = "ResetServlet", urlPatterns = {"/reset"})
+public class ResetServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,19 +27,10 @@ public class NewGameServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("application/json");
-        MenuManager gameManager = ServletUtils.getMenuManager(getServletContext());
-        if (gameManager.isStarted()) 
-            response.sendError(-100, "Game Already Started, Try again later!");
-        else if(gameManager.isInGameSetting())
-         response.sendError(-101, "Game Currently being created, Try again soon!");   
-        else if(gameManager.isInLoby())
-            response.sendRedirect("html/lobby.html");
-        else{
-            //No game in progress
-            gameManager.setInGameSetting(true);
-            response.sendRedirect("html/gameSettings.html");
-        }
+        response.setContentType("text/html;charset=UTF-8");
+        
+        ServletUtils.reset(getServletContext());
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

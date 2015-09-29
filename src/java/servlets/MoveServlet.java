@@ -36,6 +36,7 @@ public class MoveServlet extends HttpServlet {
         String move = request.getParameter(Constants.MARBLE_MOVE);
         GameManager gameManager = ServletUtils.getGameManager(getServletContext());
         gameManager.doIteration(move);
+        
         try (PrintWriter out = response.getWriter()) {
             Gson gson = new Gson();
             String jsonResponse = gson.toJson(gameManager.getTurnData());
