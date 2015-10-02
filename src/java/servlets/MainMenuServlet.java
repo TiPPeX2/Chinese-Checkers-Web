@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import servletLogic.GameManager;
 import servletLogic.MenuManager;
 import utils.ServletUtils;
 
@@ -36,6 +37,8 @@ public class MainMenuServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("application/json");
         MenuManager menuManager = ServletUtils.getMenuManager(getServletContext());
+        GameManager gameManager = ServletUtils.getGameManager(getServletContext());
+        menuManager.setLoaded(gameManager.IsLoaded());
         
         try (PrintWriter out = response.getWriter()) {
             Gson gson = new Gson();

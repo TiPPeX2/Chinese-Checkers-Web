@@ -1,27 +1,19 @@
-var OffsetArray = [12, 11, 10, 9, 0, 1, 2, 3, 4, 3, 2, 1, 0, 9, 10, 11, 12];
+    var OffsetArray = [12, 11, 10, 9, 0, 1, 2, 3, 4, 3, 2, 1, 0, 9, 10, 11, 12];
 var HowManyInARow = [1, 2, 3, 4, 13, 12, 11, 10, 9, 10, 11, 12, 13, 4, 3, 2, 1];
 var COLS = 25;
 var ROWS = 17;
 var GameData;
+var playerTimeout;
+var turnTimeout;
+var resetTimeout;
+var count;
 var move = {
     'start':{'x':0, 'y':0},
     'end':{'x':0, 'y':0}
     };
     
 $(document).ready(function () {
-    $.ajax({
-        url: '../TurnData',
-        success: function(data) {
-               GameData = data;
-               initBoard(data);
-        },
-        error: function(error) {
-           $("#error").empty(); 
-           $("#error").append
-                    ("<p>Someting went wrong,Please refresh and try again<p>");
-        }
-    });
-    
+    getTurnData();
     var index = 0;
     for (var i = 0; i < ROWS; i++){
         var rowID = "row" + i;
@@ -50,13 +42,12 @@ $(document).ready(function () {
 
 function initBoard(data){
     initGameBoardMabrlesColor(data.gameBoard);
-    initMarbles(data.currentPlayer);
+    initMarbles(true);
 }
 
 function initGameBoardMabrlesColor(gameBoard){
     for(var i = 0; i < ROWS; i++){
         for(var j = 0; j < COLS; j++){
-            $('#num-' + ((i * COLS) + j)).prop('disabled', true);
             if(gameBoard.board[i][j].color !== 'TRANSPARENT'){
                 if(gameBoard.board[i][j].color === 'EMPTY')
                     $('#num-' + ((i * COLS) + j)).css('background-color', '#D8D8D8');
@@ -67,16 +58,32 @@ function initGameBoardMabrlesColor(gameBoard){
     }
 }
 
-function initMarbles(currentPlayer){
-    for(var i = 0; i < ROWS; i++){
-        for(var j = 0; j < COLS; j++){
-            var possibleMoves =  GameData.currentPlayer.possibleMoves["java.awt.Point[x="+i+",y="+j+"]"];
-            var marbId = '#num-' + ((i * COLS) + j);
-            if(checkIfPointExists(i, j , currentPlayer.points)){
-                if(possibleMoves.length !== 0)
-                    enableMarble(marbId, marblePick);
-            }else
-                 disableMarble(marbId);
+function initMarbles(initAll){
+    if(!GameData.isMyTurn){
+        disableAllMarbles();
+        turnTimeout = setTimeout(getTurnData,1000);
+      if(!GameData.isGameOver){
+           $('#messages').empty();
+           $('#messages').append("<p>Current player is: " + GameData.currentPlayer.name + '<br>\n\
+                                His colors are: ' + GameData.currentPlayer.colors + "</p>");
+        }
+    }
+    else{
+        for(var i = 0; i < ROWS; i++){
+            for(var j = 0; j < COLS; j++){
+                var possibleMoves =  GameData.currentPlayer.possibleMoves["java.awt.Point[x="+i+",y="+j+"]"];
+                var marbId = '#num-' + ((i * COLS) + j);
+                if(checkIfPointExists(i, j , GameData.currentPlayer.points)){
+                    if(possibleMoves.length !== 0)
+                        enableMarble(marbId, marblePick);
+                }else
+                     disableMarble(marbId);
+            }
+        }
+        if(initAll){
+            count = 31;
+            countSeconds();
+            playerTimeout = setInterval(countSeconds,1000);
         }
     }
 }
@@ -91,6 +98,7 @@ function checkIfPointExists(x, y, points){
 }
 
 function marblePick(){
+    
     var id = parseInt($(this)[0].id.slice(4, $(this)[0].id.length));
     var row = parseInt($(this)[0].parentNode.id.slice(3, $(this)[0].parentNode.id.length));
     var col = id - (row * COLS);
@@ -104,8 +112,10 @@ function marblePick(){
     for(var i = 0; i < ROWS; i++){
         for(var j = 0; j < COLS; j++){
             var currId = (i * COLS) + j;
-            if(checkIfPointExists(i, j , possibleMoves) || id === currId)
-                enableMarble('#num-' + currId, marbleMove);
+            if(checkIfPointExists(i, j , possibleMoves) || id === currId){
+                if(id !== currId)
+                    enableMarble('#num-' + currId, marbleMove);
+            }
             else
                 disableMarble('#num-' + currId);
         }
@@ -113,10 +123,11 @@ function marblePick(){
 }
 
 function marbleDrop(){
-    initMarbles(GameData.currentPlayer);
+    initMarbles(false);
 }
 
 function marbleMove(){
+    clearInterval(playerTimeout);
     disableAllMarbles();
     var id = parseInt($(this)[0].id.slice(4, $(this)[0].id.length));
     var row = parseInt($(this)[0].parentNode.id.slice(3, $(this)[0].parentNode.id.length));
@@ -133,7 +144,7 @@ function marbleMove(){
             if(!data.isGameOver)
                 initBoard(data);
             else
-                doGaameOver(data.currentPlayer.name);
+                doGameOver(data.currentPlayer.name);
         },
         error: function(error) {
            $("#error").empty(); 
@@ -153,6 +164,7 @@ function disableAllMarbles(){
 }
 
 function disableMarble(marbId){
+    $(marbId).unbind();
     $(marbId).prop('disabled', true);
     $(marbId).css('border-color', '#DDDDDD');    
 }
@@ -165,19 +177,23 @@ function enableMarble(marbId, clickFunction){
 }
 
 function doGameOver(winnerName){
-    $('#messages').text("The winner is: " + winnerName + '<br> Game will reset shortly.');
-    setTimeout(function(){
-        window.location = "../index.html";
-    },5000);
-    
+    $('#messages').empty();
+    $('#messages').append("<p>The winner is: " + winnerName + '<br> Game will reset shortly.</p>');
+    if(resetTimeout === undefined){
+        resetTimeout = setTimeout(reset,5000);
+        clearInterval(playerTimeout);
+    }
 }
 
 function quit(){
-     $.ajax({
-        url: '../reset',
-        type:"POST",
+ 
+ clearInterval(playerTimeout);
+ clearTimeout(turnTimeout);
+
+   $.ajax({
+        url: '../quit',
         success: function(data) {
-            alert('reseted');
+            doTurn(data);
         },
         error: function(error) {
            $("#error").empty(); 
@@ -185,9 +201,79 @@ function quit(){
                     ("<p>Someting went wrong,Please refresh and try again<p>");
         }
     });
+    window.location = "../index.html"; 
+     return false;
+}
+
+function getTurnData(){
+    $.ajax({
+        url: '../TurnData',
+        success: function(data) {
+            doTurn(data);
+        },
+        error: function(error) {
+           $("#error").empty(); 
+           $("#error").append
+                    ("<p>Someting went wrong,Please refresh and try again<p>");
+        }
+    });
+    
+}
+
+function reset(){
+    $.ajax({
+            url: '../reset',
+            type:"POST",
+            success: function(data) {
+            },
+            error: function(error) {
+               $("#error").empty(); 
+               $("#error").append
+                        ("<p>Someting went wrong,Please refresh and try again<p>");
+            }
+        });
+    window.location = "../index.html"; 
     return false;
+}
+
+function doTurn(data){
+   GameData = data;
+   
+   if(data.isGameOver)
+       doGameOver(data.currentPlayer.name);
+   
+    initBoard(data);   
+}
+
+function countSeconds(){
+    count--;
+    if(count % 3){
+        $.ajax({
+        url: '../TurnData',
+        success: function(data) {
+            GameData = data;
+            resetOtherMarbles();
+        },
+        error: function(error) {
+           $("#error").empty(); 
+           $("#error").append
+                    ("<p>Someting went wrong,Please refresh and try again<p>");
+        }
+    });
+    }
     
-    //TODO implement quit here
-    
-    //TODO Move this jax to reset function and call is somewhereee
+    if(count === 0)
+        $("#quitForm").submit();
+    else{
+       $('#messages').empty();
+       $('#messages').append("<p>" + GameData.currentPlayer.name +" it's you turn! <br> You have " + count + " seconds!</p>");
+    }
+}
+
+
+function resetOtherMarbles(){
+   if(GameData.isGameOver)
+       doGameOver(GameData.currentPlayer.name);
+   
+    initGameBoardMabrlesColor(GameData.gameBoard);
 }

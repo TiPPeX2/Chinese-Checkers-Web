@@ -17,8 +17,10 @@ import javax.servlet.http.HttpServletResponse;
 import servletLogic.GameManager;
 import servletLogic.GameSettingsManager;
 import servletLogic.MenuManager;
+import servletLogic.UserManager;
 import utils.Constants;
 import utils.ServletUtils;
+import utils.SessionUtils;
 
 /**
  *
@@ -74,12 +76,47 @@ public class GameSettingsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-                
+               
         String colorNumStr = request.getParameter(Constants.COLOR_NUM_PARAMETER);
         String playersNumStr = request.getParameter(Constants.PLAYERS_NUM_PARAMETER);
         String humansNumStr = request.getParameter(Constants.HUMANS_NUM_PARAMETER);
         String playerName = request.getParameter(Constants.PLAYER_NAME_PARAMETER);
+        
+        String usernameFromSession = SessionUtils.getUsername(request);
+        UserManager userManager = ServletUtils.getUserManager(getServletContext());
+        if (usernameFromSession == null) {
+            //user is not logged in yet
+            String usernameFromParameter = request.getParameter(Constants.PLAYER_NAME_PARAMETER);
+            if (usernameFromParameter == null) {
+                //no username in session and no username in parameter -
+                //redirect back to the index page
+                //this return an HTTP code back to the browser telling it to load
+                //the given URL (in this case: "index.jsp")
+                response.sendRedirect("index.html");
+            } else {
+                //normalize the username value
+                usernameFromParameter = usernameFromParameter.trim();
+                if (userManager.isUserExists(usernameFromParameter)) {
+                    String errorMessage = "Username " + usernameFromParameter + " already exists. Please enter a different username.";
+                    //username already exists, forward the request back to index.jsp
+                    //with a parameter that indicates that an error should be displayed
+                    request.setAttribute(Constants.USER_NAME_ERROR, errorMessage);
+                } else {
+                    //add the new user to the users list
+                    userManager.addUser(usernameFromParameter);
+                    //set the username in a session so it will be available on each request
+                    //the true parameter means that is a session object does not exists yet
+                    //create a new one
+                    request.getSession(true).setAttribute(Constants.PLAYER_NAME_PARAMETER, usernameFromParameter);
+
+                    //redirect the request to the chat room - in order to actually change the URL
+                }
+            }
+        } else {
+            //user is already logged in
+            response.sendRedirect("index.html");
+        }
+        
         
         int colorNum = Integer.parseInt(colorNumStr);
         int playerNum = Integer.parseInt(playersNumStr);
@@ -98,10 +135,10 @@ public class GameSettingsServlet extends HttpServlet {
             GameManager gameManager = ServletUtils.getGameManager(getServletContext());
             gameManager.setGameEngine(new Engine(gameSettingsManager.getGameSettings()));
             menuManager.setStarted(true);
-            response.sendRedirect("html/game.html");
+            //response.sendRedirect("html/game.html");
         }else{
             menuManager.setInLoby(true);
-            response.sendRedirect("html/lobby.html");
+            //response.sendRedirect("html/lobby.html");
         }
         processRequest(request, response);
     }

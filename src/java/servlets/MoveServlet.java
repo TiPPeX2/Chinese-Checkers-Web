@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import servletLogic.GameManager;
+import servletLogic.UserManager;
 import utils.Constants;
 import utils.ServletUtils;
 
@@ -37,9 +38,11 @@ public class MoveServlet extends HttpServlet {
         GameManager gameManager = ServletUtils.getGameManager(getServletContext());
         gameManager.doIteration(move);
         
+        String usernameFromParameter = request.getParameter(Constants.PLAYER_NAME_PARAMETER);
+        boolean isMyTurn = gameManager.getGameEngine().getCurrentPlayer().getName().equals(usernameFromParameter);
         try (PrintWriter out = response.getWriter()) {
             Gson gson = new Gson();
-            String jsonResponse = gson.toJson(gameManager.getTurnData());
+            String jsonResponse = gson.toJson(gameManager.getTurnData(isMyTurn));
             out.print(jsonResponse);
             out.flush();
         }

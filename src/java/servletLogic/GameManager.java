@@ -6,9 +6,15 @@
 package servletLogic;
 
 import com.google.gson.Gson;
-import servletLogic.Move;
 import gameLogic.Model.Engine;
-import utils.ServletUtils;
+import gameLogic.Model.EngineFactory;
+import gameLogic.Model.FileManager;
+import generated.ChineseCheckers;
+import java.awt.Point;
+import java.io.InputStream;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import javafx.util.Pair;
 
 /**
  *
@@ -17,6 +23,8 @@ import utils.ServletUtils;
 public class GameManager {
     Engine gameEngine;
     boolean isGameOver;
+    private int aiCounter;
+    private boolean isLoaded = false;
     
     public GameManager(){
         Engine.Settings gameSettings = new Engine.Settings();
@@ -27,6 +35,11 @@ public class GameManager {
         gameSettings.getPlayerNames().add("Shahar");
         gameEngine = new Engine(gameSettings);
         isGameOver = false;
+        aiCounter = 0;
+    }
+
+    public void setIsGameOver(boolean isGameOver) {
+        this.isGameOver = isGameOver;
     }
 
     public Engine getGameEngine() {
@@ -41,11 +54,33 @@ public class GameManager {
         Gson gson = new Gson();
         Move move = gson.fromJson(moveStr, Move.class);
         isGameOver = gameEngine.doIteration(move.start, move.end);
-        //TODO AI movment??
     }
     
-    public TurnData getTurnData(){
-        return new TurnData(gameEngine.getCurrentPlayer(), gameEngine.getGameBoard(), isGameOver);
+    public TurnData getTurnData(boolean isMyTurn){
+        return new TurnData(gameEngine.getCurrentPlayer(), gameEngine.getGameBoard(), isGameOver, isMyTurn);
+    }
+
+    public void doAiIteration(int humanNum) {
+        Pair<Boolean,ArrayList<Point>> res;
+        aiCounter++;
+        if(aiCounter == humanNum && !isGameOver){
+            aiCounter = 0;
+            res = gameEngine.doAiIteration();
+            isGameOver = res.getKey();
+        }
+    }
+
+    public Engine.Settings loadGame(InputStream fileContent) throws Exception {
+        ChineseCheckers cc =  FileManager.loadGame(fileContent);
+        gameEngine = EngineFactory.createEngine(cc);
+        isLoaded = true;
+        Engine.Settings settings = gameEngine.getGameSettings();
+        settings.setPlayerNames(new ArrayList<>());
+        return settings;
+    }
+    
+     public boolean IsLoaded() {
+        return isLoaded;
     }
 
 }

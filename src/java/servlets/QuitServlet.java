@@ -5,17 +5,21 @@
  */
 package servlets;
 
+import com.google.gson.Gson;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import servletLogic.GameManager;
+import servletLogic.UserManager;
 import utils.ServletUtils;
 import utils.SessionUtils;
 
-@WebServlet(name = "ResetServlet", urlPatterns = {"/reset"})
-public class ResetServlet extends HttpServlet {
+@WebServlet(name = "QuitServlet", urlPatterns = {"/quit"})
+public class QuitServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -28,10 +32,30 @@ public class ResetServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("application/json");
         
+        
+        GameManager gameManager = ServletUtils.getGameManager(getServletContext());
+        UserManager userManager = ServletUtils.getUserManager(getServletContext());
+        
+        String usernameFromSession = SessionUtils.getUsername(request);
+        boolean gameOver = gameManager.getGameEngine().userQuited(usernameFromSession);
         SessionUtils.clearSession(request);
-        ServletUtils.reset(getServletContext());
+        gameManager.setIsGameOver(gameOver);
+        
+        boolean isMyTurn = gameManager.getGameEngine().getCurrentPlayer().getName().equals(usernameFromSession);
+        userManager.removeUser(usernameFromSession);
+        
+        if(userManager.getUsers().isEmpty())
+            ServletUtils.reset(getServletContext());
+
+        try (PrintWriter out = response.getWriter()) {
+            Gson gson = new Gson();
+            String jsonResponse = gson.toJson(gameManager.getTurnData(isMyTurn));
+            out.print(jsonResponse);
+            out.flush();
+        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

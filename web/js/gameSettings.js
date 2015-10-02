@@ -14,6 +14,9 @@ function playersNumberChanged(){
             text: i
         }));
     }
+    if(gameSettings.playerNumber >= gameSettings.howManyHumans)
+        $('#humansNumber').val(gameSettings.howManyHumans);
+    
 }
 
 function colorsNumberChanged(){
@@ -24,6 +27,8 @@ function colorsNumberChanged(){
             text: i
         }));
     }
+     if(6 / gameSettings.playerNumber >= gameSettings.howManyColors)
+        $('#colorsNumber').val(gameSettings.howManyColors);
 }
 
 $(function(){

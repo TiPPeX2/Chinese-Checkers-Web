@@ -19,6 +19,10 @@ public class Engine {
         return targetMap;
     }
 
+    public Settings getGameSettings() {
+        return gameSettings;
+    }
+
     public Engine(Settings gameSettings) {
         this.gameSettings = gameSettings;
         init(gameSettings);
@@ -366,6 +370,30 @@ public class Engine {
         return players.size() == 1;
     }
     
+    public boolean userQuited(String playerName) {
+        boolean isGameOver = true;
+        Player quitedPlayer = getPlayer(playerName);
+        for (Point pointToRemove : quitedPlayer.getPoints()) {
+            gameBoard.setColorByPoint(pointToRemove, Color.EMPTY);
+        }
+        int playerIndex = players.indexOf(quitedPlayer);
+        if(playerIndex <= currentPlayerIndx && currentPlayerIndx != 0)
+            currentPlayerIndx--;
+        players.remove(quitedPlayer);
+        if (players.size() != 1) {
+            setPossibleMovesForPlayer(getCurrentPlayer());
+        }
+        
+        for(Player player : players)
+            if(player.getType() == Type.PLAYER)
+                isGameOver = false;
+        
+        if(players.size() == 1)
+            isGameOver = true;
+        
+        return isGameOver;
+    }
+
     public void clearUsersFromBoard(){
         for (int i = 0; i < 6; i++) {
             if(players.size() >= (i + 1) ){
@@ -494,6 +522,14 @@ public class Engine {
         }
         return null;
     }
+
+    private Player getPlayer(String playerName) {
+        for(Player player : players){
+            if(player.getName().equals(playerName))
+                return player;
+        }
+        return null;
+    }
     
     
     public static class Settings {
@@ -536,7 +572,7 @@ public class Engine {
             return playerNames;
         }
 
-        void setPlayerNames(List<String> createNamesList) {
+        public void setPlayerNames(List<String> createNamesList) {
             playerNames = createNamesList;
         }
     }

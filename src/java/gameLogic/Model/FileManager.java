@@ -11,6 +11,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,14 +37,13 @@ public abstract class FileManager {
         return lines;
     }
 
-    public static ChineseCheckers loadGame(String path) throws Exception {
+    public static ChineseCheckers loadGame(InputStream stream) throws Exception {
         ChineseCheckers cc;
 
         JAXBContext jc = JAXBContext.newInstance(ChineseCheckers.class);
         Unmarshaller u = jc.createUnmarshaller();
-
-        File f = new File(path);
-        cc = (ChineseCheckers) u.unmarshal(f);
+        cc = (ChineseCheckers) u.unmarshal(stream);
+        //cc = (ChineseCheckers) u.unmarshal(game);
 
         return cc;
     }

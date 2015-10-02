@@ -4,6 +4,7 @@ var moveInterval;
 var humanPlayers;
 var players;
 var names;
+var namePicked;
 
 $(document).ready(function () {
     
@@ -11,7 +12,6 @@ $(document).ready(function () {
     getSettings();
     $("#waitingText").hide();
     $('#joinGame').submit(joinGame);
-    $("#playerName").keyup(disableSubmit);
 });
 
 function getSettings(){
@@ -59,18 +59,29 @@ function showNames(playerNames){
         updateWaitMsg();
     $('#players').empty();
     for (var i = 0;i < players;i++){
-        $('#players').append("<li>" + playerNames[i] + "</li>")
+        $('#players').append("<div><label>" + playerNames[i] + "</label> <input value='"+playerNames[i]+"' id='"+playerNames[i]+"' type='radio'></div>");
+        $('#'+playerNames[i]).click(namePickedFunc);
     }
+    if(namePicked !== undefined)
+        $('#'+namePicked).prop('checked', true);
 }
 
+function namePickedFunc(){
+    if(namePicked !== $(this).val())
+        $('#'+namePicked).prop('checked', false);
+    namePicked = $(this).val();
+    $('#joinGameBtn').prop('disabled', false);
+}
+
+
+
 function joinGame(){
-    var name = $('#playerName').val();
     $('#joinGameBtn').prop('disabled', true);
     
         $.ajax({
         url: '../nameList',
         type: "POST",
-        data:{playerName: name},
+        data:{playerName: namePicked},
         success: function(data) {
            analayeNameList(data);
         },
@@ -83,38 +94,8 @@ function joinGame(){
     return false;
 }
 
-function disableSubmit(){
-    var isNothing = $(this).val().length === 0;
-    var isUnq = checkIfUnique($(this).val());
-    
-    if(!isUnq)
-        $('#unqErr').text("Your name must be UNIQUE.");
-
-    if(isNothing){
-        $('#playerName').css('border-color', 'red');
-        $('#unqErr').empty();
-    }
-    
-    if(isNothing || !isUnq)
-        $('#joinGameBtn').prop('disabled', true);
-    else{
-        $('#joinGameBtn').prop('disabled', false);
-        $('#playerName').css('border-color','#AFA69D');
-        $('#unqErr').empty();
-    }
-}
-
-function checkIfUnique(name){
-   for (var i = 0;i < players;i++){
-        if(name === names[i])
-            return false;
-    }
-    
-    return true;
-}
-
 function updateWaitMsg(){
-    var remaining = (humanPlayers - players);
+    var remaining = names.length;
     var msg = "";
     if(remaining === 0)
         msg = "Redirecting to game shortly..";
@@ -126,7 +107,7 @@ function updateWaitMsg(){
 
 function movePlayer(){
    
-   var remaining = (humanPlayers - players);
+   var remaining = names.length;
    if(remaining === 0){
        clearInterval(namesInterval);
        clearInterval(moveInterval);

@@ -16,10 +16,12 @@ public class TurnData {
     Player currentPlayer;
     Board gameBoard;
     boolean isGameOver;
+    boolean isMyTurn;
 
-    public TurnData(Player currentPlayer, Board gameBoard, boolean isGameOver){
+    public TurnData(Player currentPlayer, Board gameBoard, boolean isGameOver, boolean isMyTurn){
         this.currentPlayer = currentPlayer;
         this.gameBoard = gameBoard;
         this.isGameOver = isGameOver;
+        this.isMyTurn = isMyTurn;
     }
 }

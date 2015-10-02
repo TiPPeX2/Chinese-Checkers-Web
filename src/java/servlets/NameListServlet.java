@@ -7,8 +7,10 @@ package servlets;
 
 import com.google.gson.Gson;
 import gameLogic.Model.Engine;
+import gameLogic.Model.Player;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,7 +20,11 @@ import javax.servlet.http.HttpServletResponse;
 import servletLogic.GameManager;
 import servletLogic.GameSettingsManager;
 import servletLogic.MenuManager;
+import servletLogic.Names;
+import servletLogic.UserManager;
+import utils.Constants;
 import utils.ServletUtils;
+import utils.SessionUtils;
 
 /**
  *
@@ -41,7 +47,26 @@ public class NameListServlet extends HttpServlet {
         response.setContentType("application/json");
         
         GameSettingsManager gameSettingsManager = ServletUtils.getGameSettingsManager(getServletContext());
-        List names = gameSettingsManager.getGameSettings().getPlayerNames();
+        GameManager gameManager = ServletUtils.getGameManager(getServletContext());
+        
+        List<String> nameList = new ArrayList<>();
+        List<String> joined = gameSettingsManager.getGameSettings().getPlayerNames();
+        String usernameFromSession = SessionUtils.getUsername(request);
+        Names names;
+        
+        if(gameManager.IsLoaded()){
+            Engine gameEngine = gameManager.getGameEngine();
+            for(Player player : gameEngine.getPlayers()){
+                if(player.getType() == Player.Type.PLAYER && !joined.contains(player.getName()))
+                    nameList.add(player.getName());
+            }
+            boolean isInside = (!nameList.contains(usernameFromSession)) && (usernameFromSession != null);
+            names = new Names(nameList, isInside);
+        }else{
+            nameList  = gameSettingsManager.getGameSettings().getPlayerNames();
+            names = new Names(nameList, nameList.contains(usernameFromSession));
+        }
+        
         
          try (PrintWriter out = response.getWriter()) {
             Gson gson = new Gson();
@@ -80,18 +105,33 @@ public class NameListServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String name = request.getParameter("playerName");
-        GameSettingsManager gameSettingsManager = ServletUtils.getGameSettingsManager(getServletContext());
-        Engine.Settings gameSettings = gameSettingsManager.getGameSettings();
-        gameSettings.getPlayerNames().add(name);
-        
-        if(gameSettings.getPlayerNames().size() == gameSettings.getHumanPlayers()){
-            MenuManager menuManager = ServletUtils.getMenuManager(getServletContext());
-            menuManager.setStarted(true);
-            
-            GameManager gameManager = ServletUtils.getGameManager(getServletContext());
-            gameManager.setGameEngine(new Engine(gameSettings));
-        }
+        String usernameFromSession = SessionUtils.getUsername(request);
+        UserManager userManager = ServletUtils.getUserManager(getServletContext());
+        String usernameFromParameter = request.getParameter(Constants.PLAYER_NAME_PARAMETER);
+        if (usernameFromParameter == null) {
+            response.sendRedirect("index.html");
+        } 
+        else {
+            usernameFromParameter = usernameFromParameter.trim();
+            if (userManager.isUserExists(usernameFromParameter)) {
+                String errorMessage = "Username " + usernameFromParameter + " already exists. Please enter a different username.";
+                request.setAttribute(Constants.USER_NAME_ERROR, errorMessage);
+            } 
+            else {
+                GameSettingsManager gameSettingsManager = ServletUtils.getGameSettingsManager(getServletContext());
+                Engine.Settings gameSettings = gameSettingsManager.getGameSettings();
+                gameSettings.getPlayerNames().add(usernameFromParameter);
+                if(gameSettings.getPlayerNames().size() == gameSettings.getHumanPlayers()){
+                    MenuManager menuManager = ServletUtils.getMenuManager(getServletContext());
+                    menuManager.setStarted(true);
+
+                    GameManager gameManager = ServletUtils.getGameManager(getServletContext());
+                    gameManager.setGameEngine(new Engine(gameSettings));
+                }
+                userManager.addUser(usernameFromParameter);
+                request.getSession(true).setAttribute(Constants.PLAYER_NAME_PARAMETER, usernameFromParameter);
+            }
+        } 
         processRequest(request, response);
     }
 

@@ -5,15 +5,29 @@
  */
 package servlets;
 
+import gameLogic.Model.Player;
+import static generated.PlayerType.HUMAN;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+import servletLogic.GameManager;
+import servletLogic.GameSettingsManager;
+import servletLogic.MenuManager;
+import servletLogic.UserManager;
+import utils.Constants;
+import utils.ServletUtils;
 
 @WebServlet(name = "GameManager", urlPatterns = {"/loadGame"})
+@MultipartConfig
 public class LoadGameServlet extends HttpServlet {
 
     /**
@@ -26,19 +40,32 @@ public class LoadGameServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, Exception {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet GameManager</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet GameManager at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        String usernameFromParameter = null;
+        Part filePart = request.getPart("loadFile");
+        InputStream fileContent = filePart.getInputStream();
+        GameManager gameManager = ServletUtils.getGameManager(getServletContext());
+        GameSettingsManager gameSettingsManager = ServletUtils.getGameSettingsManager(getServletContext());
+        MenuManager menuManager = ServletUtils.getMenuManager(getServletContext());
+        try{
+            gameSettingsManager.setGameSettings(gameManager.loadGame(fileContent));
+            if(gameSettingsManager.getGameSettings().getHumanPlayers() == 1){
+                UserManager userManager = ServletUtils.getUserManager(getServletContext());
+                for(Player player : gameManager.getGameEngine().getPlayers()){
+                    if(player.getType() == Player.Type.PLAYER)
+                        usernameFromParameter = player.getName();
+                }
+                userManager.addUser(usernameFromParameter);
+                request.getSession(true).setAttribute(Constants.PLAYER_NAME_PARAMETER, usernameFromParameter);
+                menuManager.setStarted(true);
+                response.sendRedirect("html/game.html");
+            }
+            menuManager.setInLoby(true);
+            response.sendRedirect("html/loadLobby.html");
+        }
+        catch(Exception e){
+            response.sendError(2);
         }
     }
 
@@ -54,7 +81,11 @@ public class LoadGameServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(LoadGameServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -68,7 +99,11 @@ public class LoadGameServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(LoadGameServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
