@@ -28,8 +28,7 @@ public class Board {
     private Cell[][] createFullBoard() {
         Cell[][] fullBoard = null;
         try {
-            System.out.println(new File(".").getCanonicalPath());
-            ArrayList<String> boardLines = FileManager.readLinesFromFile("C:\\Users\\Tamir\\Documents\\NetBeansProjects\\Chinese-Checkers-Web\\web\\resources\\boardTemplate.txt");
+            ArrayList<String> boardLines = getBoardLines();
             fullBoard = createBoardFromLines(boardLines);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -79,7 +78,38 @@ public class Board {
             }
         }
     }
-
+    
+    ArrayList<String> getBoardLines(){
+        ArrayList<String> boardLines = new ArrayList<>();
+        String board = getBoardString();
+        String[] lines = board.split("\\r?\\n");
+        for(String line : lines){
+            boardLines.add(line);
+        }
+        return boardLines;
+    }
+    
+    String getBoardString(){
+        return             
+"            G            "          + System.getProperty("line.separator")+
+"           G G           "        + System.getProperty("line.separator")+         
+"          G G G          "      +System.getProperty("line.separator")+       
+"         G G G G         "      +System.getProperty("line.separator")+ 
+"R R R R E E E E E W W W W"+System.getProperty("line.separator")+
+" R R R E E E E E E W W W "+System.getProperty("line.separator")+
+"  R R E E E E E E E W W  "+System.getProperty("line.separator")+
+"   R E E E E E E E E W   "+System.getProperty("line.separator")+
+"    E E E E E E E E E    "+System.getProperty("line.separator")+
+"   B E E E E E E E E K   "+System.getProperty("line.separator")+
+"  B B E E E E E E E K K  "+System.getProperty("line.separator")+
+" B B B E E E E E E K K K "+System.getProperty("line.separator")+
+"B B B B E E E E E K K K K"+System.getProperty("line.separator")+
+"         Y Y Y Y         "+System.getProperty("line.separator")+
+"          Y Y Y          "+System.getProperty("line.separator")+
+"           Y Y           "+System.getProperty("line.separator")+
+"            Y            "       ;
+    }
+    
     private static class Cell {
 
         private Color color;

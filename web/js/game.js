@@ -64,7 +64,7 @@ function initMarbles(initAll){
         turnTimeout = setTimeout(getTurnData,1000);
       if(!GameData.isGameOver){
            $('#messages').empty();
-           $('#messages').append("<p>Current player is: " + GameData.currentPlayer.name + '<br>\n\
+           $('#messages').append("<p>Current player is: " + GameData.currentPlayer.name + '<br>\
                                 His colors are: ' + GameData.currentPlayer.colors + "</p>");
         }
     }
@@ -266,7 +266,8 @@ function countSeconds(){
         $("#quitForm").submit();
     else{
        $('#messages').empty();
-       $('#messages').append("<p>" + GameData.currentPlayer.name +" it's you turn! <br> You have " + count + " seconds!</p>");
+       $('#messages').append("<p>" + GameData.currentPlayer.name +" it's you turn! <br>\
+                            You have " + count + " seconds!, Your colors are: " + GameData.currentPlayer.colors + "</p>");
     }
 }
 

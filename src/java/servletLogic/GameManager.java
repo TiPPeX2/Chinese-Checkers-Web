@@ -6,6 +6,7 @@
 package servletLogic;
 
 import com.google.gson.Gson;
+import com.google.gson.internal.Pair;
 import gameLogic.Model.Engine;
 import gameLogic.Model.EngineFactory;
 import gameLogic.Model.FileManager;
@@ -14,7 +15,8 @@ import java.awt.Point;
 import java.io.InputStream;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
-import javafx.util.Pair;
+//import javafx.util.Pair;
+
 
 /**
  *
@@ -66,7 +68,7 @@ public class GameManager {
         if(aiCounter == humanNum && !isGameOver){
             aiCounter = 0;
             res = gameEngine.doAiIteration();
-            isGameOver = res.getKey();
+            isGameOver = res.first;
         }
     }
 

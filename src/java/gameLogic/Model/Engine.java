@@ -1,11 +1,11 @@
 package gameLogic.Model;
 
+import com.google.gson.internal.Pair;
 import static gameLogic.Model.Board.COLS;
 import static gameLogic.Model.Board.ROWS;
 import gameLogic.Model.Player.Type;
 import java.awt.Point;
 import java.util.*;
-import javafx.util.Pair;
 
 public class Engine {
 
@@ -86,8 +86,8 @@ public class Engine {
     private void initColorToPlayer(int j) {
         Player curPlayer = players.get(j);
         Pair<Color, Color> colorAndTarget = colorStack.pop();
-        Color playerColor = colorAndTarget.getValue();
-        Color playerTargetColor = colorAndTarget.getKey();
+        Color playerColor = colorAndTarget.second;
+        Color playerTargetColor = colorAndTarget.first;
         curPlayer.getColors().add(playerColor);
         curPlayer.getTargets().add(targetMap.getColorToVertex().get(playerTargetColor));
     }
@@ -260,8 +260,8 @@ public class Engine {
         Pair<Point, Point> bestMove = getBestAIMove(possibleMoves);
         
         if(bestMove != null){
-            Point start = bestMove.getKey();
-            Point end = bestMove.getValue();
+            Point start = bestMove.first;
+            Point end = bestMove.second;
             res = doIteration(start, end);
             aiMove.add(start);
             aiMove.add(end);
@@ -377,8 +377,9 @@ public class Engine {
             gameBoard.setColorByPoint(pointToRemove, Color.EMPTY);
         }
         int playerIndex = players.indexOf(quitedPlayer);
-        if(playerIndex <= currentPlayerIndx && currentPlayerIndx != 0)
+        if(playerIndex < currentPlayerIndx && currentPlayerIndx != 0)
             currentPlayerIndx--;
+        
         players.remove(quitedPlayer);
         if (players.size() != 1) {
             setPossibleMovesForPlayer(getCurrentPlayer());
@@ -406,7 +407,7 @@ public class Engine {
     private ArrayList<Color> toList(Stack<Pair<Color, Color>> colorStack) {
         ArrayList<Color> colorsInStack = new ArrayList<>();
         for (Pair<Color, Color> pair : colorStack) {
-            colorsInStack.add(pair.getValue());
+            colorsInStack.add(pair.second);
         }
         return colorsInStack;
     }

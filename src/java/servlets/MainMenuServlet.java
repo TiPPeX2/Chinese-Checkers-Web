@@ -39,7 +39,6 @@ public class MainMenuServlet extends HttpServlet {
         MenuManager menuManager = ServletUtils.getMenuManager(getServletContext());
         GameManager gameManager = ServletUtils.getGameManager(getServletContext());
         menuManager.setLoaded(gameManager.IsLoaded());
-        
         try (PrintWriter out = response.getWriter()) {
             Gson gson = new Gson();
             String jsonResponse = gson.toJson(menuManager);
