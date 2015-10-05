@@ -209,7 +209,10 @@ function getTurnData(){
     $.ajax({
         url: '../TurnData',
         success: function(data) {
-            doTurn(data);
+            if(data === false)
+                window.location = "../index.html";
+            else
+                doTurn(data);
         },
         error: function(error) {
            $("#error").empty(); 

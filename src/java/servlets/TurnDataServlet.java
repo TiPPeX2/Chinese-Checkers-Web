@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import servletLogic.GameManager;
+import servletLogic.MenuManager;
 import servletLogic.UserManager;
 import utils.ServletUtils;
 import utils.SessionUtils;
@@ -39,19 +40,27 @@ public class TurnDataServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("application/json");
         GameManager gameManager = ServletUtils.getGameManager(getServletContext());
+        MenuManager menuManager = ServletUtils.getMenuManager(getServletContext());
         UserManager userManager = ServletUtils.getUserManager(getServletContext());
-        
-        if(gameManager.getGameEngine().getCurrentPlayer().getType() == Player.Type.COMPUTER)
-            gameManager.doAiIteration(userManager.getUsers().size());
-        
-        String usernameFromSession = SessionUtils.getUsername(request);
-        boolean isMyTurn = gameManager.getGameEngine().getCurrentPlayer().getName().equals(usernameFromSession);
-        
-        try (PrintWriter out = response.getWriter()) {
-            Gson gson = new Gson();
-            String jsonResponse = gson.toJson(gameManager.getTurnData(isMyTurn));
-            out.print(jsonResponse);
+        if(!menuManager.isStarted()){
+            try (PrintWriter out = response.getWriter()) {
+            out.print(false);
             out.flush();
+            }
+        }
+        else{
+            if(gameManager.getGameEngine().getCurrentPlayer().getType() == Player.Type.COMPUTER)
+                gameManager.doAiIteration(userManager.getUsers().size());
+
+            String usernameFromSession = SessionUtils.getUsername(request);
+            boolean isMyTurn = gameManager.getGameEngine().getCurrentPlayer().getName().equals(usernameFromSession);
+
+            try (PrintWriter out = response.getWriter()) {
+                Gson gson = new Gson();
+                String jsonResponse = gson.toJson(gameManager.getTurnData(isMyTurn));
+                out.print(jsonResponse);
+                out.flush();
+            }
         }
     }
 
