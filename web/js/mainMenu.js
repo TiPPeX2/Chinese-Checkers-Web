@@ -58,7 +58,7 @@ var gameStarted = (gameState.started === true ||
                 window.location = "html/lobby.html";
         }
         else if(gameState.inGameSetting)
-            errorMsg = "<p id='errorMsg'>There is a game that is behing created, refresh soon and try to join!<p>";
+            errorMsg = "<p id='errorMsg'>There is a game that is being created, refresh soon and try to join!<p>";
         $('#container').append(errorMsg);
     }
 }

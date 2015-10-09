@@ -1,4 +1,4 @@
-    var OffsetArray = [12, 11, 10, 9, 0, 1, 2, 3, 4, 3, 2, 1, 0, 9, 10, 11, 12];
+var OffsetArray = [12, 11, 10, 9, 0, 1, 2, 3, 4, 3, 2, 1, 0, 9, 10, 11, 12];
 var HowManyInARow = [1, 2, 3, 4, 13, 12, 11, 10, 9, 10, 11, 12, 13, 4, 3, 2, 1];
 var COLS = 25;
 var ROWS = 17;
@@ -281,3 +281,17 @@ function resetOtherMarbles(){
    
     initGameBoardMabrlesColor(GameData.gameBoard);
 }
+
+
+window.onbeforeunload = function(){
+   $.ajax({
+            url: '../quit',
+            success: function(data) {
+            },
+            error: function(error) {
+               $("#error").empty(); 
+               $("#error").append
+                        ("<p>Someting went wrong,Please refresh and try again<p>");
+            }
+        });
+};

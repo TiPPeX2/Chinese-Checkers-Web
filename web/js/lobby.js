@@ -1,9 +1,9 @@
 var namesInterval;
 var moveInterval;
-
 var humanPlayers;
 var players;
 var names;
+var isInside = false;
 
 $(document).ready(function () {
     
@@ -138,9 +138,25 @@ function analayeNameList(data){
     names = data.names;
     showNames(names);
     if(data.isInside){
+        isInside = true;
         $('#playerName').hide();
         $('#joinGame').hide();
         $('#waitingText').show();
         moveInterval = setInterval(movePlayer, 2000);
     }
 }
+
+
+window.onbeforeunload = function(){
+    if(isInside && humanPlayers - players !== 0)
+       $.ajax({
+            url: '../clear',
+            success: function(data) {
+            },
+            error: function(error) {
+               $("#error").empty(); 
+               $("#error").append
+                        ("<p>Someting went wrong,Please refresh and try again<p>");
+            }
+        });
+};

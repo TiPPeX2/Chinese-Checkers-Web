@@ -4,7 +4,7 @@ var gameSettings = {
     howManyColors: 1,
     howManyHumans: 1
 };
-
+var isCreated = false;
 
 function playersNumberChanged(){
     $('#humansNumber').empty();
@@ -63,6 +63,7 @@ $(function(){
     colorsNumberChanged();
     
     $("#createGameForm").submit(function(){
+        isCreated = true;
         $.ajax({
             type: "POST",
             data: $(this).serialize(),
@@ -83,5 +84,19 @@ $(function(){
         return false;
     });
 });
+
+window.onbeforeunload = function(){
+   if(!isCreated)
+        $.ajax({
+            url: '../clear',
+            success: function(data) {
+            },
+            error: function(error) {
+               $("#error").empty(); 
+               $("#error").append
+                        ("<p>Someting went wrong,Please refresh and try again<p>");
+            }
+        });
+};
 
 
